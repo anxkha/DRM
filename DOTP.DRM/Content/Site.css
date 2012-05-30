@@ -1,0 +1,312 @@
+﻿/*----------------------------------------------------------
+The base color for this template is rgb(195,195,195). If you'd like
+to use a different color start by replacing all instances of
+rgb(195,195,195) with your new color.
+----------------------------------------------------------*/
+body {
+    background-color: #5E1322;
+    /*background-color: rgb(195,195,195);*/
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #696969;
+}
+
+a:link {
+    color: Black;
+}
+
+a:visited {
+    color: Black;
+}
+
+a:hover {
+    color: #888;
+}
+
+p, ul {
+    margin-bottom: 20px;
+    line-height: 1.6em;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1.5em;
+}
+
+h1 {
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+h2 {
+    padding: 0 0 10px 0;
+}
+
+h3 {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+h5, h6 {
+    font-size: 1em;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+.page {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header, #header {
+    padding: 0;
+    position: relative;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    /*background-color: #C2BBA7;*/
+    color: Black;
+    height: 219px;
+}
+
+#main {
+    padding: 15px 15px 15px 15px;
+    background-color: #C2BBA7;
+    margin-bottom: 15px;
+    color: Black;
+}
+
+footer, 
+#footer {
+    padding: 15px 15px 15px 15px;
+    background-color: #C2BBA7;
+    color: Black;
+    text-align: center;
+    line-height: normal;
+    font-size: .9em;
+}
+
+/* TAB MENU   
+----------------------------------------------------------*/
+#navmenu {
+    background-color: #C2BBA7;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+ul#menu {
+    padding: 0;
+    position: relative;
+    margin: 0;
+}
+
+ul#menu li {
+    display: inline;
+    list-style: none;
+}
+
+ul#menu li#greeting {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: #fff;
+}
+
+ul#menu li a {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: Black;
+}
+
+ul#menu li a:hover {
+    background-color: #fff;
+    text-decoration: none;
+    color: Black;
+}
+
+ul#menu li a:active {
+    background-color: #a6e2a6;
+    text-decoration: none;
+}
+
+ul#menu li.selected a {
+    background-color: #fff;
+    color: #000;
+}
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+input[type="text"], 
+input[type="password"] {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+    width: 200px;
+}
+
+select {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+}
+
+input[type="submit"] {
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+table.listTable {
+    border: none;
+    border-collapse: collapse;
+    background-color: #B2AA93;
+}
+
+table.listTable thead {
+    background-color: White;
+}
+
+table td {
+    padding: 5px;
+    border: none;
+}
+
+table th {
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: none;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+.clear {
+    clear: both;
+}
+
+.error {
+    color: Red;
+}
+
+div#title {
+    display: block;
+    text-align: left;
+}
+
+#logindisplay {
+    position: relative;
+    text-align: right;
+    color: Black;
+    line-height: 2.8em;
+    padding: 10px 20px;
+    display: block;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors, .errorPanel {
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    background-color: rgb(218, 107, 111);
+    color: White;
+}
+
+.successPanel {
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    background-color: rgb(68, 219, 114);
+    color: Black;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label, 
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.display-field, 
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+.text-box {
+    width: 30em;
+}
+
+.text-box.multi-line {
+    height: 6.5em;
+}
+
+.tri-state {
+    width: 6em;
+}
+
+/* Styles for the character add page
+----------------------------------------------------------*/
+#Name {
+    width: 12em;
+}
+
+#Level {
+    width: 2em;
+}
