@@ -34,7 +34,7 @@
   <div class="editor-label">
    <%: Html.LabelFor(m => m.Name) %>
   </div>
-  <div class="editor-field">
+  <div id="drmAddCharacterName" class="editor-field">
    <input data-val="true" data-val-required="A character name is required" id="Name" name="Name" type="text" value="<% if (null != Model) Response.Write(Model.Name); %>" maxlength="12" />
    <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
   </div>
@@ -42,7 +42,7 @@
   <div class="editor-label">
    <%: Html.LabelFor(m => m.Level) %>
   </div>
-  <div class="editor-field">
+  <div id="drmAddCharacterLevel" class="editor-field">
    <input data-val="true" data-val-required="A character level is required" data-val-number="The character level must be a number" data-val-range="The character level must be between 1 and 85" data-val-range-max="85" data-val-range-min="1" id="Level" name="Level" type="text" value="<% if (null != Model) Response.Write(Model.Level); %>" maxlength="2" />
    <span class="field-validation-valid" data-valmsg-for="Level" data-valmsg-replace="true"></span>
   </div>

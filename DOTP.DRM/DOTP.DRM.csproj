@@ -111,11 +111,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CharactersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RaidController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CharactersModels.cs" />
+    <Compile Include="Models\RaidModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +155,13 @@
     <Content Include="Scripts\EditCharacter.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\ScheduleRaid.js" />
     <Content Include="Views\Account\Index.aspx" />
     <Content Include="Views\Characters\Delete.aspx" />
     <Content Include="Views\Characters\Edit.aspx" />
     <Content Include="Views\Characters\Index.aspx" />
     <Content Include="Views\Characters\Add.aspx" />
+    <Content Include="Views\Raid\Schedule.aspx" />
     <Content Include="Views\Raid\Signup.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

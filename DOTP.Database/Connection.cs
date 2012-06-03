@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.Configuration;
 
@@ -43,6 +44,15 @@ namespace DOTP.Database
             callback(reader);
 
             reader.Close();
+        }
+
+        public static object ExecuteSqlScalar(Query command)
+        {
+            EnsureConnected();
+
+            command.Command.Connection = m_sqlConnection;
+
+            return command.Command.ExecuteScalar();
         }
     }
 }

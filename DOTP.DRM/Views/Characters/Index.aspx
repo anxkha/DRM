@@ -9,7 +9,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
  <h2>Characters</h2>
  <p><%: Html.ActionLink("Add Character", "Add", "Characters") %></p>
- <table class="listTable">
+ <table class="listTable" style="width: 75em;">
   <thead>
    <tr>
     <td><b>Name</b></td>

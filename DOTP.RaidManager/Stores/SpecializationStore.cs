@@ -84,7 +84,9 @@ FROM [DRM].[dbo].[Specialization] s
                     {
                         while (reader.Read())
                         {
-                            if (null != _cache.Find(s => int.Parse(reader[0].ToString()) == s.ID))
+                            var id = int.Parse(reader[0].ToString());
+
+                            if ((null != _cache.Find(s => id == s.ID)) && (id != 35))
                                 return;
 
                             _cache.Add(new Specialization((int)reader[0], reader[1].ToString(), reader[2].ToString(), reader[3].ToString()));

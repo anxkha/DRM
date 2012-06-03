@@ -7,6 +7,8 @@
 
 <h2>Welcome to the Defenders of the Pass raid management site!</h2>
 
+<p>All times are in server time (EST).</p>
+
 <table style="width: 100%" class="listTable">
  <thead>
   <tr>

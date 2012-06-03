@@ -47,8 +47,8 @@ namespace DOTP.Database
 
         public Query AddParam(string name, DateTime value)
         {
-            m_command.Parameters.Add(name, SqlDbType.Date);
-            m_command.Parameters[name].Value = value.ToString();
+            m_command.Parameters.Add(name, SqlDbType.DateTime);
+            m_command.Parameters[name].Value = value.ToShortDateString() + " " + value.ToShortTimeString();
 
             return this;
         }

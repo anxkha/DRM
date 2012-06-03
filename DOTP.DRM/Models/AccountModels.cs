@@ -7,7 +7,6 @@ using System.Web.Security;
 
 namespace DOTP.DRM.Models
 {
-
     public class ChangePasswordModel
     {
         [Required]

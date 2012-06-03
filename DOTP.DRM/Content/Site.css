@@ -303,10 +303,25 @@ div#title {
 
 /* Styles for the character add page
 ----------------------------------------------------------*/
-#Name {
+#drmAddCharacterName #Name {
     width: 12em;
 }
 
-#Level {
+#drmAddCharacterLevel #Level {
     width: 2em;
+}
+
+/* Styles for the raid scheduling page
+----------------------------------------------------------*/
+#drmRaidInstanceName #Name {
+    width: 20em;
+}
+
+#drmRaidInstanceDescription #Description {
+    width: 30em;
+    height: 3em;
+}
+
+#drmRaidInstanceDate #Date {
+    width: 6em;
 }
