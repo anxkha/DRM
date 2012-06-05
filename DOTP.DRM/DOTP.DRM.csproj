@@ -163,7 +163,7 @@
     <Content Include="Views\Characters\Index.aspx" />
     <Content Include="Views\Characters\Add.aspx" />
     <Content Include="Views\Raid\Archive.aspx" />
-    <Content Include="Views\Raid\EditSchedule.aspx" />
+    <Content Include="Views\Raid\Edit.aspx" />
     <Content Include="Views\Raid\Schedule.aspx" />
     <Content Include="Views\Raid\Signup.aspx" />
     <Content Include="Web.config" />

@@ -115,6 +115,18 @@ namespace DOTP.DRM.Controllers
 
         #endregion
 
+        #region /Raid/Edit
+
+        //
+        // GET: /Raid/Edit?ID=<ID>
+
+        public ActionResult Edit(int ID)
+        {
+            return View();
+        }
+
+        #endregion
+
         #region RaidResponse
 
         private class RaidResponse

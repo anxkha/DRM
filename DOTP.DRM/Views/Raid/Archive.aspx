@@ -9,7 +9,7 @@
 
 <asp:Content ID="StatusContent" ContentPlaceHolderID="StatusContent" runat="server">
  <div class="errorPanel" id="errorPanel" style="display: none;">
-  <h2>Unable to archive the raid instance. Please correct the error and try again:</h2>
+  <h2>Unable to archive the raid. Please correct the error and try again:</h2>
   <p id="errorContent"></p>
  </div>
  <div class="successPanel" id="successPanel" style="display: none">
@@ -19,12 +19,12 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2>Archive a Raid Instance</h2>
+<h2>Archive a Raid</h2>
 
-<p>Are you sure you want to archive this raid instance? This action <em>can</em> be undone.</p>
+<p>Are you sure you want to archive this raid? This action <em>can</em> be undone.</p>
 
 <%
-using( Html.BeginForm("Delete", "Characters", FormMethod.Post, new { id = "deleteForm" }) )
+using( Html.BeginForm("Archive", "Raid", FormMethod.Post, new { id = "archiveForm" }) )
 {
     var raidInstance = (RaidInstance)ViewBag.RaidInstance;
     
