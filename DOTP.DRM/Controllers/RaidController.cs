@@ -122,7 +122,68 @@ namespace DOTP.DRM.Controllers
 
         public ActionResult Edit(int ID)
         {
-            return View();
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
+            var raidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
+
+            if (null == raidInstance)
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid raid instance ID provided for editing a raid instance.") };
+
+            ViewBag.ID = ID;
+
+            var model = new ScheduleRaidModel()
+            {
+                Raid = raidInstance.Raid,
+                Name = raidInstance.Name,
+                Description = raidInstance.Description,
+                InviteTime = raidInstance.InviteTime,
+                StartTime = raidInstance.StartTime
+            };
+
+            return View(model);
+        }
+
+        //
+        // POST: /Raid/Edit
+
+        [HttpPost]
+        public ActionResult Edit(int ID, ScheduleRaidModel model)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
+            if (model.Name.Length > 100)
+                return new JsonResult() { Data = new RaidResponse(false, "The name cannot be more than 100 characters long.") };
+
+            if (model.Description.Length > 1000)
+                return new JsonResult() { Data = new RaidResponse(false, "The description cannot be more than 1000 characters long.") };
+
+            if (null == RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID))
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid raid instance ID provided for editing a raid instance.") };
+
+            var raidInstance = new RaidInstance()
+            {
+                ID = ID,
+                Raid = model.Raid,
+                Name = model.Name,
+                Description = model.Description,
+                InviteTime = model.InviteTime,
+                StartTime = model.StartTime
+            };
+
+            string errorMsg;
+
+            if (!RaidInstance.Store.TryModify(raidInstance, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
         }
 
         #endregion

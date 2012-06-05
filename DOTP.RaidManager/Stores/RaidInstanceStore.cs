@@ -32,6 +32,16 @@ SET [IsArchived] = 1
 WHERE ([ID] = @ID)
 ";
 
+        private static string RAID_INSTANCE_UPDATE = @"
+UPDATE [DRM].[dbo].[RaidInstance]
+SET [Raid] = @Raid,
+    [Name] = @Name,
+    [Description] = @Description,
+    [InviteTime] = @InviteTime,
+    [StartTime] = @StartTime
+WHERE ([ID] = @ID)
+";
+
         public RaidInstanceStore()
         {
             _loaded = false;
@@ -120,6 +130,72 @@ WHERE ([ID] = @ID)
                         _cache.Find(ri => ri.ID == instance.ID).Archived = true;
                     else
                         errorMsg = "Datastore failure when archiving the raid instance. Please contact the administrator.";
+
+                    return success;
+                }
+            }
+        }
+
+        public bool TryModify(RaidInstance instance, out string errorMsg)
+        {
+            using (new ReaderLock(_lock))
+            {
+                RaidInstance ri;
+
+                if (null == (ri = ReadOneOrDefault(i => i.ID == instance.ID)))
+                {
+                    errorMsg = "You cannot edit a raid that does not exist.";
+                    return false;
+                }
+
+                if (DateTime.Compare(instance.InviteTime, DateTime.Now) < 0)
+                {
+                    errorMsg = "You cannot schedule a raid in the past.";
+                    return false;
+                }
+
+                if (DateTime.Compare(instance.StartTime, instance.InviteTime) < 0)
+                {
+                    errorMsg = "The start time cannot be before the invite time.";
+                    return false;
+                }
+
+                using (new WriterLock(_lock))
+                {
+                    if (null == (ri = ReadOneOrDefault(i => i.ID == instance.ID)))
+                    {
+                        errorMsg = "You cannot edit a raid that does not exist.";
+                        return false;
+                    }
+
+                    var success = false;
+
+                    Connection.ExecuteSql(new Query(RAID_INSTANCE_UPDATE)
+                                            .AddParam("ID", instance.ID)
+                                            .AddParam("Raid", instance.Raid)
+                                            .AddParam("Name", instance.Name)
+                                            .AddParam("Description", instance.Description)
+                                            .AddParam("InviteTime", instance.InviteTime)
+                                            .AddParam("StartTime", instance.StartTime), delegate(SqlDataReader reader)
+                    {
+                        if (0 == reader.RecordsAffected)
+                            return;
+
+                        success = true;
+                    });
+
+                    errorMsg = "";
+
+                    if (success)
+                    {
+                        ri.Raid = instance.Raid;
+                        ri.Name = instance.Name;
+                        ri.Description = instance.Description;
+                        ri.InviteTime = instance.InviteTime;
+                        ri.StartTime = instance.StartTime;
+                    }
+                    else
+                        errorMsg = "Datastore failure when modifying the raid instance. Please contact the administrator.";
 
                     return success;
                 }

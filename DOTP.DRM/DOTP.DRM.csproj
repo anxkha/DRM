@@ -154,6 +154,7 @@
     <Content Include="Scripts\ArchiveRaidInstance.js" />
     <Content Include="Scripts\DeleteCharacter.js" />
     <Content Include="Scripts\EditCharacter.js" />
+    <Content Include="Scripts\EditRaid.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\ScheduleRaid.js" />
