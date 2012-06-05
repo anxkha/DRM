@@ -29,6 +29,9 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
+            if (!Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -40,6 +43,9 @@ namespace DOTP.DRM.Controllers
         {
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
 
             if(model.Name.Length > 100)
                 return new JsonResult() { Data = new RaidResponse(false, "The name cannot be more than 100 characters long.") };
@@ -77,7 +83,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             ViewBag.RaidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
@@ -97,7 +103,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             var raidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
@@ -125,7 +131,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             ViewBag.RaidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
@@ -145,7 +151,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             var raidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
@@ -173,7 +179,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             var raidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
@@ -204,7 +210,7 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
-            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+            if (!Manager.GetCurrentUser().IsAdmin)
                 return RedirectToAction("Index", "Home");
 
             if (model.Name.Length > 100)

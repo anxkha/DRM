@@ -9,7 +9,13 @@
 <h2>Welcome to the Defenders of the Pass raid management site!</h2>
 
 <p>All times are in server time (EST).</p>
-<p>Scheduled raids:</p>
+<p>
+ Scheduled raids
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
+ (<a href="/Raid/Schedule" title="Schedule a raid"><img src="/Content/images/new-icon.png" alt="New" /></a>)
+<% } %>
+ :
+</p>
 
 <table style="width: 100%" class="listTable">
  <thead>
@@ -44,7 +50,7 @@ if( null != instances )
    <td><%: raid.InviteTime.ToShortDateString() + " " + raid.InviteTime.ToLongTimeString() %></td>
    <td><%: raid.StartTime.ToShortDateString() + " " + raid.StartTime.ToLongTimeString() %></td>
    <td><a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a></td>
-<% if((null != Manager.GetCurrentUser()) && (Manager.GetCurrentUser().IsAdmin || Manager.GetCurrentUser().IsRaidTeam)){ %>
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
    <td><a href="/Raid/Edit?ID=<%: raid.ID %>" title="Edit this raid"><img src="/Content/images/edit-icon.png" alt="Edit" /></a></td>
    <td><a href="/Raid/Archive?ID=<%: raid.ID %>" title="Archive this raid"><img src="/Content/images/archive-icon.png" alt="Archive" /></a></td>
 <% } %>
@@ -67,7 +73,6 @@ else
 
  </tbody>
 </table>
-<br />
 
 <p>Archived raids:</p>
 
@@ -80,7 +85,7 @@ else
    <td><b>Invite Time</b></td>
    <td><b>Start Time</b></td>
    <td></td>
-<% if((null != Manager.GetCurrentUser()) && (Manager.GetCurrentUser().IsAdmin || Manager.GetCurrentUser().IsRaidTeam)){ %>
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
    <td></td>
 <% } %>
   </tr>
@@ -103,7 +108,7 @@ if( null != instances )
    <td><%: raid.InviteTime.ToShortDateString() + " " + raid.InviteTime.ToLongTimeString() %></td>
    <td><%: raid.StartTime.ToShortDateString() + " " + raid.StartTime.ToLongTimeString() %></td>
    <td><a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a></td>
-<% if((null != Manager.GetCurrentUser()) && (Manager.GetCurrentUser().IsAdmin || Manager.GetCurrentUser().IsRaidTeam)){ %>
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
    <td><a href="/Raid/UnArchive?ID=<%: raid.ID %>" title="Un-Archive this raid"><img src="/Content/images/archive-icon.png" alt="Un-Archive" /></a></td>
 <% } %>
   </tr>
