@@ -26,9 +26,9 @@ VALUES
 SELECT @@IDENTITY AS 'Identity'
 ";
 
-        private static string RAID_INSTANCE_ARCHIVE = @"
+        private static string RAID_INSTANCE_SET_ARCHIVE = @"
 UPDATE [DRM].[dbo].[RaidInstance]
-SET [IsArchived] = 1
+SET [IsArchived] = @IsArchived
 WHERE ([ID] = @ID)
 ";
 
@@ -101,7 +101,7 @@ WHERE ([ID] = @ID)
             {
                 if (true == instance.Archived)
                 {
-                    errorMsg = "Cannot archive an already-archived raid instance.";
+                    errorMsg = "Cannot archive an already-archived raid.";
                     return false;
                 }
 
@@ -109,13 +109,14 @@ WHERE ([ID] = @ID)
                 {
                     if (true == instance.Archived)
                     {
-                        errorMsg = "Cannot archive an already-archived raid instance.";
+                        errorMsg = "Cannot archive an already-archived raid.";
                         return false;
                     }
 
                     var success = false;
 
-                    Connection.ExecuteSql(new Query(RAID_INSTANCE_ARCHIVE)
+                    Connection.ExecuteSql(new Query(RAID_INSTANCE_SET_ARCHIVE)
+                                            .AddParam("IsArchived", true)
                                             .AddParam("ID", instance.ID), delegate(SqlDataReader reader)
                     {
                         if (0 == reader.RecordsAffected)
@@ -130,6 +131,48 @@ WHERE ([ID] = @ID)
                         _cache.Find(ri => ri.ID == instance.ID).Archived = true;
                     else
                         errorMsg = "Datastore failure when archiving the raid instance. Please contact the administrator.";
+
+                    return success;
+                }
+            }
+        }
+
+        public bool TryUnArchive(RaidInstance instance, out string errorMsg)
+        {
+            using (new ReaderLock(_lock))
+            {
+                if (false == instance.Archived)
+                {
+                    errorMsg = "Cannot un-archive a non-archived raid.";
+                    return false;
+                }
+
+                using (new WriterLock(_lock))
+                {
+                    if (false == instance.Archived)
+                    {
+                        errorMsg = "Cannot un-archive a non-archived raid.";
+                        return false;
+                    }
+
+                    var success = false;
+
+                    Connection.ExecuteSql(new Query(RAID_INSTANCE_SET_ARCHIVE)
+                                            .AddParam("IsArchived", false)
+                                            .AddParam("ID", instance.ID), delegate(SqlDataReader reader)
+                    {
+                        if (0 == reader.RecordsAffected)
+                            return;
+
+                        success = true;
+                    });
+
+                    errorMsg = "";
+
+                    if (success)
+                        _cache.Find(ri => ri.ID == instance.ID).Archived = false;
+                    else
+                        errorMsg = "Datastore failure when un-archiving the raid instance. Please contact the administrator.";
 
                     return success;
                 }
