@@ -67,6 +67,54 @@ namespace DOTP.DRM.Controllers
 
         #endregion
 
+        #region /Raid/Archive
+
+        //
+        // GET: /Raid/Archive?ID=<ID>
+
+        public ActionResult Archive(int ID)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.RaidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
+
+            if (null == ViewBag.RaidInstance)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        //
+        // POST: /Raid/Archive
+
+        [HttpPost]
+        public ActionResult Archive(int ID, string Name)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsRaidTeam && !Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
+            var raidInstance = RaidInstance.Store.ReadOneOrDefault(ri => ri.ID == ID);
+
+            if (null == raidInstance)
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid raid instance ID provided for archiving a raid instance.") };
+
+            string errorMsg;
+
+            if (!RaidInstance.Store.TryArchive(raidInstance, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        #endregion
+
         #region RaidResponse
 
         private class RaidResponse

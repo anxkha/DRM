@@ -151,6 +151,7 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\AddCharacter.js" />
+    <Content Include="Scripts\ArchiveRaidInstance.js" />
     <Content Include="Scripts\DeleteCharacter.js" />
     <Content Include="Scripts\EditCharacter.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -161,6 +162,8 @@
     <Content Include="Views\Characters\Edit.aspx" />
     <Content Include="Views\Characters\Index.aspx" />
     <Content Include="Views\Characters\Add.aspx" />
+    <Content Include="Views\Raid\Archive.aspx" />
+    <Content Include="Views\Raid\EditSchedule.aspx" />
     <Content Include="Views\Raid\Schedule.aspx" />
     <Content Include="Views\Raid\Signup.aspx" />
     <Content Include="Web.config" />

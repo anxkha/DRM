@@ -26,6 +26,12 @@ VALUES
 SELECT @@IDENTITY AS 'Identity'
 ";
 
+        private static string RAID_INSTANCE_ARCHIVE = @"
+UPDATE [DRM].[dbo].[RaidInstance]
+SET [IsArchived] = 1
+WHERE ([ID] = @ID)
+";
+
         public RaidInstanceStore()
         {
             _loaded = false;
@@ -72,7 +78,48 @@ SELECT @@IDENTITY AS 'Identity'
                     if (success)
                         _cache.Add(instance);
                     else
-                        errorMsg = "Datastore failure when adding the character. Please contact the administrator.";
+                        errorMsg = "Datastore failure when creating the raid instance. Please contact the administrator.";
+
+                    return success;
+                }
+            }
+        }
+
+        public bool TryArchive(RaidInstance instance, out string errorMsg)
+        {
+            using (new ReaderLock(_lock))
+            {
+                if (true == instance.Archived)
+                {
+                    errorMsg = "Cannot archive an already-archived raid instance.";
+                    return false;
+                }
+
+                using (new WriterLock(_lock))
+                {
+                    if (true == instance.Archived)
+                    {
+                        errorMsg = "Cannot archive an already-archived raid instance.";
+                        return false;
+                    }
+
+                    var success = false;
+
+                    Connection.ExecuteSql(new Query(RAID_INSTANCE_ARCHIVE)
+                                            .AddParam("ID", instance.ID), delegate(SqlDataReader reader)
+                    {
+                        if (0 == reader.RecordsAffected)
+                            return;
+
+                        success = true;
+                    });
+
+                    errorMsg = "";
+
+                    if (success)
+                        _cache.Find(ri => ri.ID == instance.ID).Archived = true;
+                    else
+                        errorMsg = "Datastore failure when archiving the raid instance. Please contact the administrator.";
 
                     return success;
                 }

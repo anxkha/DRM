@@ -42,8 +42,8 @@
     <td><%: character.Race %></td>
     <td><%: Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization).Name %></td>
     <td><%: Specialization.Store.ReadOneOrDefault(s => s.ID == character.SecondarySpecialization).Name %></td>
-    <td><a href="/Characters/Edit?Name=<%: character.Name %>"><img src="/Content/images/edit-icon.png" alt="Edit" /></a></td>
-    <td><a href="/Characters/Delete?Name=<%: character.Name %>"><img src="/Content/images/delete-icon.png" alt="Edit" /></a></td>
+    <td><a href="/Characters/Edit?Name=<%: character.Name %>" title="Edit this character"><img src="/Content/images/edit-icon.png" alt="Edit" /></a></td>
+    <td><a href="/Characters/Delete?Name=<%: character.Name %>" title="Delete this character"><img src="/Content/images/delete-icon.png" alt="Edit" /></a></td>
    </tr>
 
 <%
