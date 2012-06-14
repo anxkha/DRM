@@ -47,6 +47,7 @@
     <Compile Include="Race.cs" />
     <Compile Include="RaceClasses.cs" />
     <Compile Include="Raid.cs" />
+    <Compile Include="RaidDetails.cs" />
     <Compile Include="RaidInstance.cs" />
     <Compile Include="RaidSignup.cs" />
     <Compile Include="Role.cs" />

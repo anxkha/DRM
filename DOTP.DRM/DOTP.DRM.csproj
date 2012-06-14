@@ -121,7 +121,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\dotpbanner_big.jpg" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -158,6 +157,7 @@
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\ScheduleRaid.js" />
+    <Content Include="Scripts\SignupRaid.js" />
     <Content Include="Scripts\UnArchiveRaidInstance.js" />
     <Content Include="Views\Account\Index.aspx" />
     <Content Include="Views\Characters\Delete.aspx" />

@@ -52,6 +52,8 @@ WHERE ([ID] = @ID)
 
         public bool TryCreate(RaidInstance instance, out string errorMsg)
         {
+            EnsureLoaded();
+
             using (new ReaderLock(_lock))
             {
                 if (DateTime.Compare(instance.InviteTime, DateTime.Now) < 0)
@@ -97,6 +99,8 @@ WHERE ([ID] = @ID)
 
         public bool TryArchive(RaidInstance instance, out string errorMsg)
         {
+            EnsureLoaded();
+
             using (new ReaderLock(_lock))
             {
                 if (true == instance.Archived)
@@ -139,6 +143,8 @@ WHERE ([ID] = @ID)
 
         public bool TryUnArchive(RaidInstance instance, out string errorMsg)
         {
+            EnsureLoaded();
+
             using (new ReaderLock(_lock))
             {
                 if (false == instance.Archived)
@@ -181,6 +187,8 @@ WHERE ([ID] = @ID)
 
         public bool TryModify(RaidInstance instance, out string errorMsg)
         {
+            EnsureLoaded();
+
             using (new ReaderLock(_lock))
             {
                 RaidInstance ri;

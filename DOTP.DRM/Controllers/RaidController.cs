@@ -242,6 +242,73 @@ namespace DOTP.DRM.Controllers
 
         #endregion
 
+        #region /Raid/Signup
+
+        //
+        // GET: /Raid/Signup?ID=<ID>
+
+        public ActionResult Signup(int ID)
+        {
+            var raidDetails = new RaidDetails(ID);
+
+            if (!raidDetails.Initialize())
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.RaidDetails = raidDetails;
+
+            if (null == raidDetails.Signups)
+            {
+                ViewBag.NumRostered = 0;
+                ViewBag.NumQueued = 0;
+                ViewBag.NumCancelled = 0;
+                ViewBag.NumTotal = 0;
+                ViewBag.PercentageRostered = 0;
+                ViewBag.PercentageQueued = 0;
+                ViewBag.PercentageCancelled = 0;
+            }
+            else
+            {
+                ViewBag.NumTotal = raidDetails.Signups.Count;
+                ViewBag.NumCancelled = raidDetails.Signups.FindAll(s => s.IsCancelled).Count;
+                ViewBag.NumQueued = raidDetails.Signups.FindAll(s => !s.IsCancelled && !s.IsRostered).Count;
+                ViewBag.NumRostered = raidDetails.Signups.FindAll(s => s.IsRostered).Count;
+                ViewBag.PercentageRostered = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumRostered / ViewBag.NumTotal) * 100);
+                ViewBag.PercentageQueued = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumQueued / ViewBag.NumTotal) * 100);
+                ViewBag.PercentageCancelled = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumCancelled / ViewBag.NumTotal) * 100);
+            }
+
+            return View();
+        }
+
+        //
+        // POST: /Raid/NewSignup
+
+        [HttpPost]
+        public ActionResult NewSignup(int RaidInstanceID, string Character, string Comment)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            var newSignup = new RaidSignup()
+            {
+                RaidInstanceID = RaidInstanceID,
+                Character = Character,
+                Comment = Comment,
+                IsRostered = false,
+                IsCancelled = false,
+                RosteredSpecialization = 1
+            };
+
+            string errorMsg;
+
+            if (!RaidSignup.Store.TryCreate(newSignup, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        #endregion
+
         #region RaidResponse
 
         private class RaidResponse

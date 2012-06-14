@@ -10,11 +10,10 @@
 
 <p>All times are in server time (EST).</p>
 <p>
- Scheduled raids
+ Scheduled raids:
 <% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
  (<a href="/Raid/Schedule" title="Schedule a raid"><img src="/Content/images/new-icon.png" alt="New" /></a>)
 <% } %>
- :
 </p>
 
 <table style="width: 100%" class="listTable">

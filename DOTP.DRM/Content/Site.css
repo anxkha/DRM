@@ -325,3 +325,9 @@ div#title {
 #drmRaidInstanceDate #Date {
     width: 6em;
 }
+
+/* Styles for the raid signup page
+----------------------------------------------------------*/
+#signupForm #Comment {
+    width: 30em;
+}
