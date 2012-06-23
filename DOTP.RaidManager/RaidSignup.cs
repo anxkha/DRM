@@ -1,4 +1,5 @@
 ﻿using DOTP.RaidManager.Stores;
+using System;
 
 namespace DOTP.RaidManager
 {
@@ -42,6 +43,12 @@ namespace DOTP.RaidManager
             set;
         }
 
+        public DateTime SignupDate
+        {
+            get;
+            set;
+        }
+
         public RaidSignup()
         {
             RaidInstanceID = 0;
@@ -50,6 +57,7 @@ namespace DOTP.RaidManager
             IsRostered = false;
             IsCancelled = true;
             RosteredSpecialization = 0;
+            SignupDate = DateTime.Now;
         }
 
         public static RaidSignupStore Store

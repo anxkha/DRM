@@ -87,5 +87,6 @@ CREATE TABLE RaidSignup
 	Comment nvarchar(200) NOT NULL,
 	IsRostered bit NOT NULL DEFAULT 'FALSE',
 	IsCancelled bit NOT NULL DEFAULT 'FALSE',
-	RosteredSpecialization int NOT NULL CHECK (RosteredSpecialization >= 1 AND RosteredSpecialization <= 2)
+	RosteredSpecialization int NOT NULL CHECK (RosteredSpecialization >= 1 AND RosteredSpecialization <= 2),
+	SignupDate datetime NOT NULL
 );

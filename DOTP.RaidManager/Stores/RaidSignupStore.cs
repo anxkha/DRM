@@ -14,15 +14,21 @@ namespace DOTP.RaidManager.Stores
         private ReaderWriterLock _lock;
 
         private static string RAID_SIGNUP_SELECT = @"
-SELECT [RaidInstanceID], [Character], [Comment], [IsRostered], [IsCancelled], [RosteredSpecialization]
+SELECT [RaidInstanceID], [Character], [Comment], [IsRostered], [IsCancelled], [RosteredSpecialization], [SignupDate]
 FROM [DRM].[dbo].[RaidSignup]
 ";
 
         private static string RAID_SIGNUP_ADD = @"
 INSERT INTO [DRM].[dbo].[RaidSignup]
-    ([RaidInstanceID], [Character], [Comment], [IsRostered], [IsCancelled], [RosteredSpecialization])
+    ([RaidInstanceID], [Character], [Comment], [IsRostered], [IsCancelled], [RosteredSpecialization], [SignupDate])
 VALUES
-    (@RaidInstanceID, @Character, @Comment, 0, 0, @RosteredSpecialization)
+    (@RaidInstanceID, @Character, @Comment, 0, 0, @RosteredSpecialization, @SignupDate)
+";
+
+        private static string RAID_SIGNUP_CANCEL = @"
+UPDATE [DRM].[dbo].[RaidSignup]
+SET [IsCancelled] = 1, [IsRostered] = 0
+WHERE ([Character] = @Character) AND ([RaidInstanceID] = @RaidInstanceID)
 ";
 
         public RaidSignupStore()
@@ -125,7 +131,8 @@ VALUES
                                             .AddParam("RaidInstanceID", signup.RaidInstanceID)
                                             .AddParam("Character", signup.Character)
                                             .AddParam("Comment", signup.Comment)
-                                            .AddParam("RosteredSpecialization", signup.RosteredSpecialization), delegate(SqlDataReader reader)
+                                            .AddParam("RosteredSpecialization", signup.RosteredSpecialization)
+                                            .AddParam("SignupDate", signup.SignupDate), delegate(SqlDataReader reader)
                     {
                         if (0 == reader.RecordsAffected)
                             return;
@@ -139,6 +146,69 @@ VALUES
                         _cache.Add(signup);
                     else
                         errorMsg = "Datastore failure when creating the signup. Please contact the administrator.";
+
+                    return success;
+                }
+            }
+        }
+
+        public bool TryCancel(string character, int raidInstanceID, out string errorMsg)
+        {
+            EnsureLoaded();
+
+            using (new ReaderLock(_lock))
+            {
+                var signup = ReadOneOrDefault(rs => (rs.RaidInstanceID == raidInstanceID) && (rs.Character == character));
+
+                if (null == signup)
+                {
+                    errorMsg = "A signup could not be located for that character/raid instance ID pair.";
+                    return false;
+                }
+
+                if (true == signup.IsCancelled)
+                {
+                    errorMsg = "That signup is already cancelled.";
+                    return false;
+                }
+
+                using (new WriterLock(_lock))
+                {
+                    signup = ReadOneOrDefault(rs => (rs.RaidInstanceID == raidInstanceID) && (rs.Character == character));
+
+                    if (null == signup)
+                    {
+                        errorMsg = "A signup could not be located for that character/raid instance ID pair.";
+                        return false;
+                    }
+
+                    if (true == signup.IsCancelled)
+                    {
+                        errorMsg = "That signup is already cancelled.";
+                        return false;
+                    }
+
+                    var success = false;
+
+                    Connection.ExecuteSql(new Query(RAID_SIGNUP_CANCEL)
+                                            .AddParam("RaidInstanceID", raidInstanceID)
+                                            .AddParam("Character", character), delegate(SqlDataReader reader)
+                                            {
+                                                if (0 == reader.RecordsAffected)
+                                                    return;
+
+                                                success = true;
+                                            });
+
+                    errorMsg = "";
+
+                    if (success)
+                    {
+                        signup.IsCancelled = true;
+                        signup.IsRostered = true;
+                    }
+                    else
+                        errorMsg = "Datastore failure when cancelling the signup. Please contact the administrator.";
 
                     return success;
                 }
@@ -172,7 +242,8 @@ VALUES
                                 Comment = reader[2].ToString(),
                                 IsRostered = (bool)reader[3],
                                 IsCancelled = (bool)reader[4],
-                                RosteredSpecialization = (int)reader[5]
+                                RosteredSpecialization = (int)reader[5],
+                                SignupDate = (DateTime)reader[6]
                             };
 
                             _cache.Add(newRaidSignup);

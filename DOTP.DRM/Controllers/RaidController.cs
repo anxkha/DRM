@@ -1,6 +1,7 @@
 ﻿using DOTP.DRM.Models;
 using DOTP.RaidManager;
 using DOTP.Users;
+using System;
 using System.Web.Mvc;
 
 namespace DOTP.DRM.Controllers
@@ -296,12 +297,30 @@ namespace DOTP.DRM.Controllers
                 Comment = Comment,
                 IsRostered = false,
                 IsCancelled = false,
-                RosteredSpecialization = 1
+                RosteredSpecialization = 1,
+                SignupDate = DateTime.Now
             };
 
             string errorMsg;
 
             if (!RaidSignup.Store.TryCreate(newSignup, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        //
+        // POST: /Raid/CancelSignup
+
+        [HttpPost]
+        public ActionResult CancelSignup(int RaidInstanceID, string Character)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            string errorMsg;
+
+            if (!RaidSignup.Store.TryCancel(Character, RaidInstanceID, out errorMsg))
                 return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
 
             return new JsonResult() { Data = new RaidResponse(true, "") };

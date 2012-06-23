@@ -10,11 +10,11 @@
 
 <asp:Content ID="StatusContent" ContentPlaceHolderID="StatusContent" runat="server">
  <div class="errorPanel" id="errorPanel" style="display: none;">
-  <h2>Unable to sign up for the raid. Please correct the error and try again:</h2>
+  <h2>Please correct any errors and try again:</h2>
   <p id="errorContent"></p>
  </div>
  <div class="successPanel" id="successPanel" style="display: none">
-  You are successfully signed up for the raid. <a href="Signup?ID=<%: ViewBag.RaidDetails.ID %>">Go back to the raid details.</a>
+  <span id="successContent">You are successfully signed up for the raid.</span> <a href="Signup?ID=<%: ViewBag.RaidDetails.ID %>">Go back to the raid details.</a>
  </div>
 </asp:Content>
 
@@ -277,7 +277,7 @@
        <td><%: character.Level %></td>
        <td><%: character.Race %></td>
        <td><%: character.Class %></td>
-       <td></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
        <td><%: primarySpec.Role %></td>
        <td>
 <%
@@ -289,6 +289,12 @@
          <option value="<%: secondarySpec.ID %>"><%: secondarySpec.Name%></option>
         </select>
         <% } %>
+       </td>
+       <td>
+        <% if ((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsRaidTeam)
+           { %> <a href="#" id="Roster<%: character.Name %>" class="drmRosterButton" title="Roster this character" onclick="return false;"><img src="/Content/images/up-icon.png" alt="" /></a> <% } %>
+        <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
        </td>
       </tr>
 <% } %>
@@ -319,6 +325,57 @@
     else
     {
 %>
+    <table style="width: 100%" class="listTable">
+     <thead>
+      <tr>
+       <td><b>Name</b></td>
+       <td><b>Comment</b></td>
+       <td><b>Level</b></td>
+       <td><b>Race</b></td>
+       <td><b>Class</b></td>
+       <td><b>Signup Date/Time</b></td>
+       <td><b>Role</b></td>
+       <td><b>Roster As</b></td>
+       <td></td>
+      </tr>
+     </thead>
+     <tbody>
+<%
+        List<RaidSignup> queued = ViewBag.RaidDetails.Signups;
+
+        foreach (var signup in queued.FindAll(rs => rs.IsCancelled))
+        {
+            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+            var secondarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.SecondarySpecialization);
+%>
+      <tr>
+       <td><%: character.Name%></td>
+       <td><%: signup.Comment %></td>
+       <td><%: character.Level %></td>
+       <td><%: character.Race %></td>
+       <td><%: character.Class %></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
+       <td><%: primarySpec.Role %></td>
+       <td>
+<%
+            if (null != secondarySpec)
+            {
+%>
+        <select name="<%: character.Name %>RosterRole" id="Select1">
+         <option value="<%: primarySpec.ID %>"><%: primarySpec.Name%></option>
+         <option value="<%: secondarySpec.ID %>"><%: secondarySpec.Name%></option>
+        </select>
+        <% } %>
+       </td>
+       <td>
+        <a href="#" id="Restore<%: character.Name %>" class="drmRestoreSignupButton" title="Restore this signup" onclick="return false;"><img src="/Content/images/revert-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
+       </td>
+      </tr>
+<% } %>
+     </tbody>
+    </table>
 <% } %>
    </td>
   </tr>

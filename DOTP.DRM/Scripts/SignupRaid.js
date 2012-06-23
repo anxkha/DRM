@@ -1,6 +1,19 @@
-﻿var onSubmitSuccess = function (data) {
+﻿var onSignupSuccess = function (data) {
     if (data.Success && (true == data.Success)) {
         $("#successPanel").slideDown(300);
+        $("#main").slideUp(300);
+    }
+    else {
+        $(window).scrollTop(100);
+        $("#errorContent").text(data.ErrorMessage);
+        $("#errorPanel").slideDown(300);
+    }
+};
+
+var onCancelSuccess = function (data) {
+    if (data.Success && (true == data.Success)) {
+        $("#successPanel").slideDown(300);
+        $("#successContent").text("You have successfully cancelled that signup.");
         $("#main").slideUp(300);
     }
     else {
@@ -17,6 +30,24 @@ var onSubmitError = function (data) {
 };
 
 $(document).ready(function () {
+    $(".drmCancelSignupButton").click(function () {
+        $("#errorPanel").slideUp(300);
+
+        var character = $(this).attr("id").replace("Cancel", "");
+
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "/Raid/CancelSignup",
+            data: {
+                RaidInstanceID: $("#RaidInstanceID").val(),
+                Character: character
+            },
+            success: onCancelSuccess,
+            error: onSubmitError
+        });
+    });
+
     $("#signupForm").submit(function () {
         $("#errorPanel").slideUp(300);
 
@@ -27,9 +58,9 @@ $(document).ready(function () {
             data: {
                 RaidInstanceID: $("#RaidInstanceID").val(),
                 Character: $("#Character").val(),
-                Comment: $("#Comment").val(),
+                Comment: $("#Comment").val()
             },
-            success: onSubmitSuccess,
+            success: onSignupSuccess,
             error: onSubmitError
         });
 
