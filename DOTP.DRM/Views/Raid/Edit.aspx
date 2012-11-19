@@ -115,7 +115,8 @@
  </div>
 
  <p>
-  <input type="submit" value="Edit" />
+  <input type="button" value="Edit" id="Edit" />
+  <input type="button" value="Cancel" id="Cancel" />
  </p>
 </fieldset>
 

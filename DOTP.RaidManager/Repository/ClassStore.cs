@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
     public class ClassStore
     {
@@ -13,7 +13,7 @@ namespace DOTP.RaidManager.Stores
         private bool _loaded;
         private ReaderWriterLock _lock;
 
-        private static string CLASS_SELECT = "SELECT * FROM [DRM].[dbo].[Class]";
+        private static string CLASS_SELECT = "SELECT * FROM [Class]";
 
         public ClassStore()
         {

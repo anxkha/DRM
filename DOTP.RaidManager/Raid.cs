@@ -1,4 +1,4 @@
-﻿using DOTP.RaidManager.Stores;
+﻿using DOTP.RaidManager.Repository;
 using System.Collections.Generic;
 
 namespace DOTP.RaidManager

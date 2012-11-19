@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
     public class RaidInstanceStore
     {
@@ -15,11 +15,11 @@ namespace DOTP.RaidManager.Stores
 
         private static string RAID_INSTANCE_SELECT = @"
 SELECT [ID], [Raid], [Name], [Description], [InviteTime], [StartTime], [IsArchived]
-FROM [DRM].[dbo].[RaidInstance]
+FROM [RaidInstance]
 ";
 
         private static string RAID_INSTANCE_INSERT = @"
-INSERT INTO [DRM].[dbo].[RaidInstance]
+INSERT INTO [RaidInstance]
     ([Raid], [Name], [Description], [InviteTime], [StartTime], [IsArchived])
 VALUES
     (@Raid, @Name, @Description, @InviteTime, @StartTime, 0);
@@ -27,13 +27,13 @@ SELECT @@IDENTITY AS 'Identity'
 ";
 
         private static string RAID_INSTANCE_SET_ARCHIVE = @"
-UPDATE [DRM].[dbo].[RaidInstance]
+UPDATE [RaidInstance]
 SET [IsArchived] = @IsArchived
 WHERE ([ID] = @ID)
 ";
 
         private static string RAID_INSTANCE_UPDATE = @"
-UPDATE [DRM].[dbo].[RaidInstance]
+UPDATE [RaidInstance]
 SET [Raid] = @Raid,
     [Name] = @Name,
     [Description] = @Description,

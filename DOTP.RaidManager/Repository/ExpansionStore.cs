@@ -5,29 +5,29 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
-    public class RoleStore
+    public class ExpansionStore
     {
-        private static List<Role> _cache;
+        private static List<Expansion> _cache;
         private bool _loaded;
         private ReaderWriterLock _lock;
 
-        private static string ROLE_SELECT = "SELECT * FROM [DRM].[dbo].[Role]";
+        private static string EXPANSION_SELECT = "SELECT * FROM [Expansion]";
 
-        public RoleStore()
+        public ExpansionStore()
         {
             _loaded = false;
-            _cache = new List<Role>();
+            _cache = null;
 
             _lock = new ReaderWriterLock();
         }
 
-        public List<Role> ReadAll()
+        public List<Expansion> ReadAll()
         {
             EnsureLoaded();
 
-            var newList = new List<Role>();
+            var newList = new List<Expansion>();
 
             foreach (var entry in _cache)
             {
@@ -47,19 +47,22 @@ namespace DOTP.RaidManager.Stores
                 {
                     if (_loaded) return;
 
-                    Connection.ExecuteSql(new Query(ROLE_SELECT), delegate(SqlDataReader reader)
+                    if (null == _cache)
+                        _cache = new List<Expansion>();
+
+                    Connection.ExecuteSql(new Query(EXPANSION_SELECT), delegate(SqlDataReader reader)
                     {
                         while (reader.Read())
                         {
                             if (null != _cache.Find(c => reader[0].ToString() == c.Name))
                                 return;
 
-                            var newRole = new Role()
+                            var newExpansion = new Expansion()
                             {
                                 Name = reader[0].ToString()
                             };
 
-                            _cache.Add(newRole);
+                            _cache.Add(newExpansion);
                         }
                     });
 

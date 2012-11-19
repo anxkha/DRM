@@ -5,29 +5,29 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
-    public class ExpansionStore
+    public class RoleStore
     {
-        private static List<Expansion> _cache;
+        private static List<Role> _cache;
         private bool _loaded;
         private ReaderWriterLock _lock;
 
-        private static string EXPANSION_SELECT = "SELECT * FROM [DRM].[dbo].[Expansion]";
+        private static string ROLE_SELECT = "SELECT * FROM [Role]";
 
-        public ExpansionStore()
+        public RoleStore()
         {
             _loaded = false;
-            _cache = null;
+            _cache = new List<Role>();
 
             _lock = new ReaderWriterLock();
         }
 
-        public List<Expansion> ReadAll()
+        public List<Role> ReadAll()
         {
             EnsureLoaded();
 
-            var newList = new List<Expansion>();
+            var newList = new List<Role>();
 
             foreach (var entry in _cache)
             {
@@ -47,22 +47,19 @@ namespace DOTP.RaidManager.Stores
                 {
                     if (_loaded) return;
 
-                    if (null == _cache)
-                        _cache = new List<Expansion>();
-
-                    Connection.ExecuteSql(new Query(EXPANSION_SELECT), delegate(SqlDataReader reader)
+                    Connection.ExecuteSql(new Query(ROLE_SELECT), delegate(SqlDataReader reader)
                     {
                         while (reader.Read())
                         {
                             if (null != _cache.Find(c => reader[0].ToString() == c.Name))
                                 return;
 
-                            var newExpansion = new Expansion()
+                            var newRole = new Role()
                             {
                                 Name = reader[0].ToString()
                             };
 
-                            _cache.Add(newExpansion);
+                            _cache.Add(newRole);
                         }
                     });
 

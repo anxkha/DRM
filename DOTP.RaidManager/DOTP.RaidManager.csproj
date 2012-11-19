@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Class.cs" />
+    <Compile Include="Drawing\Roster.cs" />
     <Compile Include="Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Race.cs" />
@@ -51,17 +53,19 @@
     <Compile Include="RaidInstance.cs" />
     <Compile Include="RaidSignup.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Specialization.cs" />
-    <Compile Include="Stores\CharacterStore.cs" />
-    <Compile Include="Stores\ClassStore.cs" />
-    <Compile Include="Stores\ExpansionStore.cs" />
-    <Compile Include="Stores\RaceClassesStore.cs" />
-    <Compile Include="Stores\RaceStore.cs" />
-    <Compile Include="Stores\RaidInstanceStore.cs" />
-    <Compile Include="Stores\RaidSignupStore.cs" />
-    <Compile Include="Stores\RaidStore.cs" />
-    <Compile Include="Stores\RoleStore.cs" />
-    <Compile Include="Stores\SpecializationStore.cs" />
+    <Compile Include="Repository\CharacterStore.cs" />
+    <Compile Include="Repository\ClassStore.cs" />
+    <Compile Include="Repository\ExpansionStore.cs" />
+    <Compile Include="Repository\RaceClassesStore.cs" />
+    <Compile Include="Repository\RaceStore.cs" />
+    <Compile Include="Repository\RaidInstanceStore.cs" />
+    <Compile Include="Repository\RaidSignupStore.cs" />
+    <Compile Include="Repository\RaidStore.cs" />
+    <Compile Include="Repository\RoleStore.cs" />
+    <Compile Include="Repository\SettingsStore.cs" />
+    <Compile Include="Repository\SpecializationStore.cs" />
     <Compile Include="Threading\ReaderLock.cs" />
     <Compile Include="Threading\WriterLock.cs" />
   </ItemGroup>

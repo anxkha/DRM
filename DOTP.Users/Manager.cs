@@ -10,19 +10,19 @@ namespace DOTP.Users
     {
         private static string GET_USER = @"
 SELECT ID, FirstName, Email, Password, IsRaidTeam, IsAdmin
-FROM DRM.dbo.Users
+FROM Users
 WHERE (Email = @Email)
 ";
 
         private static string ADD_USER = @"
-INSERT INTO DRM.dbo.Users
+INSERT INTO Users
     (FirstName, Email, Password, IsRaidTeam, IsAdmin)
 VALUES
     (@FirstName, @Email, @Password, @IsRaidTeam, @IsAdmin)
 ";
 
         private static string CHANGE_PASSWORD = @"
-UPDATE DRM.dbo.Users
+UPDATE Users
 SET Password = @Password
 WHERE (ID = @ID)
 ";

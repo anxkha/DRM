@@ -17,7 +17,7 @@ namespace DOTP.Database
         {
             if ((null != m_sqlConnection) && (System.Data.ConnectionState.Open == m_sqlConnection.State)) return;
 
-            var webConfig = WebConfigurationManager.OpenWebConfiguration("/Web.config");
+            var webConfig = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
 
             if (0 == webConfig.ConnectionStrings.ConnectionStrings.Count)
                 throw new Exception();

@@ -20,7 +20,7 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2><%: ViewBag.RaidDetails.RaidInstance.Name%> - Signup Details</h2>
+<h2><%: ViewBag.RaidDetails.RaidInstance.Name %> - Signup Details</h2>
 
 <table style="width: 100%" class="listTable">
  <thead>
@@ -31,7 +31,7 @@
  <tbody>
   <tr>
    <td style="vertical-align: top; text-align: left;">
-    <%: ViewBag.RaidDetails.RaidInstance.Description%>
+    <%: ViewBag.RaidDetails.RaidInstance.Description %>
    </td>
   </tr>
  </tbody>
@@ -39,6 +39,7 @@
 
 <br />
 
+<!-- Raid Details -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr>
@@ -114,6 +115,7 @@
 
 <br />
 
+<!-- Rostered Tanks -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -128,13 +130,49 @@
 
     var tanks = null == signups ? null : signups.FindAll(s => s.IsRostered && ("Tank" == Specialization.Store.ReadOneOrDefault(sp => sp.ID == s.RosteredSpecialization).Role));
 
-    if (null == tanks)
+    if ((null == tanks) || (0 == tanks.Count))
     {
         Response.Write("None");
     }
     else
     {
 %>
+    <table style="width: 100%" class="listTable">
+     <thead>
+      <tr>
+       <td><b>Name</b></td>
+       <td><b>Comment</b></td>
+       <td><b>Level</b></td>
+       <td><b>Race</b></td>
+       <td><b>Class</b></td>
+       <td><b>Signup Date/Time</b></td>
+       <td><b>Role</b></td>
+       <td></td>
+      </tr>
+     </thead>
+     <tbody>
+<%
+        foreach (var signup in tanks)
+        {
+            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+%>
+      <tr>
+       <td><%: character.Name%></td>
+       <td><%: signup.Comment %></td>
+       <td><%: character.Level %></td>
+       <td><%: character.Race %></td>
+       <td><%: character.Class %></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
+       <td><%: primarySpec.Role %></td>
+       <td>
+        <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
+       </td>
+      </tr>
+<% } %>
+     </tbody>
+    </table>
 <% } %>
    </td>
   </tr>
@@ -143,6 +181,7 @@
 
 <br />
 
+<!-- Rostered Healers -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -157,13 +196,49 @@
 
     var healers = null == signups ? null : signups.FindAll(s => s.IsRostered && ("Healer" == Specialization.Store.ReadOneOrDefault(sp => sp.ID == s.RosteredSpecialization).Role));
 
-    if (null == healers)
+    if ((null == healers) || (0 == healers.Count))
     {
         Response.Write("None");
     }
     else
     {
 %>
+    <table style="width: 100%" class="listTable">
+     <thead>
+      <tr>
+       <td><b>Name</b></td>
+       <td><b>Comment</b></td>
+       <td><b>Level</b></td>
+       <td><b>Race</b></td>
+       <td><b>Class</b></td>
+       <td><b>Signup Date/Time</b></td>
+       <td><b>Role</b></td>
+       <td></td>
+      </tr>
+     </thead>
+     <tbody>
+<%
+        foreach (var signup in healers)
+        {
+            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+%>
+      <tr>
+       <td><%: character.Name%></td>
+       <td><%: signup.Comment %></td>
+       <td><%: character.Level %></td>
+       <td><%: character.Race %></td>
+       <td><%: character.Class %></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
+       <td><%: primarySpec.Role %></td>
+       <td>
+        <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
+       </td>
+      </tr>
+<% } %>
+     </tbody>
+    </table>
 <% } %>
    </td>
   </tr>
@@ -172,6 +247,7 @@
 
 <br />
 
+<!-- Rostered Melee -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -186,13 +262,50 @@
 
     var melee = null == signups ? null : signups.FindAll(s => s.IsRostered && ("Melee" == Specialization.Store.ReadOneOrDefault(sp => sp.ID == s.RosteredSpecialization).Role));
 
-    if (null == melee)
+    if ((null == melee) || (0 == melee.Count))
     {
         Response.Write("None");
     }
     else
     {
 %>
+    <table style="width: 100%" class="listTable">
+     <thead>
+      <tr>
+       <td><b>Name</b></td>
+       <td><b>Comment</b></td>
+       <td><b>Level</b></td>
+       <td><b>Race</b></td>
+       <td><b>Class</b></td>
+       <td><b>Signup Date/Time</b></td>
+       <td><b>Role</b></td>
+       <td></td>
+      </tr>
+     </thead>
+     <tbody>
+<%
+        foreach (var signup in melee)
+        {
+            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+            var secondarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.SecondarySpecialization);
+%>
+      <tr>
+       <td><%: character.Name%></td>
+       <td><%: signup.Comment %></td>
+       <td><%: character.Level %></td>
+       <td><%: character.Race %></td>
+       <td><%: character.Class %></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
+       <td><%: primarySpec.Role %></td>
+       <td>
+        <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
+       </td>
+      </tr>
+<% } %>
+     </tbody>
+    </table>
 <% } %>
    </td>
   </tr>
@@ -201,6 +314,7 @@
 
 <br />
 
+<!-- Rostered Ranged -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -215,13 +329,49 @@
 
     var ranged = null == signups ? null : signups.FindAll(s => s.IsRostered && ("Ranged" == Specialization.Store.ReadOneOrDefault(sp => sp.ID == s.RosteredSpecialization).Role));
     
-    if (null == ranged)
+    if ((null == ranged) || (0 == ranged.Count))
     {
         Response.Write("None");
     }
     else
     {
 %>
+    <table style="width: 100%" class="listTable">
+     <thead>
+      <tr>
+       <td><b>Name</b></td>
+       <td><b>Comment</b></td>
+       <td><b>Level</b></td>
+       <td><b>Race</b></td>
+       <td><b>Class</b></td>
+       <td><b>Signup Date/Time</b></td>
+       <td><b>Role</b></td>
+       <td></td>
+      </tr>
+     </thead>
+     <tbody>
+<%
+        foreach (var signup in ranged)
+        {
+            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+%>
+      <tr>
+       <td><%: character.Name%></td>
+       <td><%: signup.Comment %></td>
+       <td><%: character.Level %></td>
+       <td><%: character.Race %></td>
+       <td><%: character.Class %></td>
+       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
+       <td><%: primarySpec.Role %></td>
+       <td>
+        <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
+        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
+       </td>
+      </tr>
+<% } %>
+     </tbody>
+    </table>
 <% } %>
    </td>
   </tr>
@@ -230,6 +380,7 @@
 
 <br />
 
+<!-- Queued Signups -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -291,8 +442,6 @@
         <% } %>
        </td>
        <td>
-        <% if ((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsRaidTeam)
-           { %> <a href="#" id="Roster<%: character.Name %>" class="drmRosterButton" title="Roster this character" onclick="return false;"><img src="/Content/images/up-icon.png" alt="" /></a> <% } %>
         <a href="#" id="Cancel<%: character.Name %>" class="drmCancelSignupButton" title="Cancel this signup" onclick="return false;"><img src="/Content/images/cancel-icon.png" alt="" /></a>
         <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
        </td>
@@ -308,6 +457,7 @@
 
 <br />
 
+<!-- Cancelled Signups -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">
@@ -335,7 +485,6 @@
        <td><b>Class</b></td>
        <td><b>Signup Date/Time</b></td>
        <td><b>Role</b></td>
-       <td><b>Roster As</b></td>
        <td></td>
       </tr>
      </thead>
@@ -347,7 +496,6 @@
         {
             var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
             var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
-            var secondarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.SecondarySpecialization);
 %>
       <tr>
        <td><%: character.Name%></td>
@@ -357,17 +505,6 @@
        <td><%: character.Class %></td>
        <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
        <td><%: primarySpec.Role %></td>
-       <td>
-<%
-            if (null != secondarySpec)
-            {
-%>
-        <select name="<%: character.Name %>RosterRole" id="Select1">
-         <option value="<%: primarySpec.ID %>"><%: primarySpec.Name%></option>
-         <option value="<%: secondarySpec.ID %>"><%: secondarySpec.Name%></option>
-        </select>
-        <% } %>
-       </td>
        <td>
         <a href="#" id="Restore<%: character.Name %>" class="drmRestoreSignupButton" title="Restore this signup" onclick="return false;"><img src="/Content/images/revert-icon.png" alt="" /></a>
         <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
@@ -392,6 +529,7 @@
 
 <input type="hidden" id="RaidInstanceID" name="RaidInstanceID" value="<%: ViewBag.RaidDetails.ID %>" />
 
+<!-- Signup Form -->
 <table style="width: 100%" class="listTable">
  <thead>
   <tr style="text-align: center">

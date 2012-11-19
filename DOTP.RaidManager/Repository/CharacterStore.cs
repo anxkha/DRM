@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
     public class CharacterStore
     {
@@ -16,22 +16,22 @@ namespace DOTP.RaidManager.Stores
 
         private static string CHARACTER_SELECT = @"
 SELECT [Name], [Level], [Class], [Race], [AccountID], [PrimarySpecializationID], [SecondarySpecializationID]
-FROM [DRM].[dbo].[Character]
+FROM [Character]
 ";
 
         private static string CHARACTER_ADD = @"
-INSERT INTO [DRM].[dbo].[Character]
+INSERT INTO [Character]
     ([Name], [Level], [Class], [Race], [AccountID], [PrimarySpecializationID], [SecondarySpecializationID])
 VALUES (@Name, @Level, @Class, @Race, @AccountID, @PrimarySpecialization, @SecondarySpecialization)
 ";
 
         private static string CHARACTER_DELETE = @"
-DELETE FROM [DRM].[dbo].[Character]
+DELETE FROM [Character]
 WHERE ([Name] = @Name)
 ";
 
         private static string CHARACTER_UPDATE = @"
-UPDATE [DRM].[dbo].[Character]
+UPDATE [Character]
 SET [Name] = @Name,
     [Level] = @Level,
     [Race] = @Race,

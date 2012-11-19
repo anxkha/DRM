@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
     public class RaceClassesStore
     {
@@ -13,7 +13,7 @@ namespace DOTP.RaidManager.Stores
         private bool _loaded;
         private ReaderWriterLock _lock;
 
-        private static string RACE_TO_CLASSES_SELECT = "SELECT [Race], [Class] FROM [DRM].[dbo].[ClassToRace] ORDER BY [Race]";
+        private static string RACE_TO_CLASSES_SELECT = "SELECT [Race], [Class] FROM [ClassToRace] ORDER BY [Race]";
 
         public RaceClassesStore()
         {

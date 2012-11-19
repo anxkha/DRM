@@ -10,6 +10,13 @@ CREATE TABLE Users
 	IsAdmin bit NOT NULL
 );
 
+CREATE TABLE Settings
+(
+	TimeZone int NOT NULL,
+	GuildName nvarchar(100) NOT NULL,
+	GuildAbbreviation nvarchar(5) NOT NULL
+);
+
 CREATE TABLE Class
 (
 	Name nvarchar(20) NOT NULL UNIQUE NONCLUSTERED

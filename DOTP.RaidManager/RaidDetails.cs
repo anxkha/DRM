@@ -41,7 +41,7 @@ namespace DOTP.RaidManager
             if (null == _raidInstance)
                 return false;
 
-            _signups = RaidSignup.Store.ReadAll(rs => rs.RaidInstanceID == ID);
+            _signups = RaidSignup.Store.ReadAll(ID);
             _raid = Raid.Store.ReadOneOrDefault(r => r.Name == _raidInstance.Raid);
 
             return true;

@@ -53,3 +53,10 @@ INSERT INTO ClassToRace (Class, Race) VALUES ('Rogue', 'Dwarf');
 INSERT INTO ClassToRace (Class, Race) VALUES ('Rogue', 'Gnome');
 INSERT INTO ClassToRace (Class, Race) VALUES ('Rogue', 'Night Elf');
 INSERT INTO ClassToRace (Class, Race) VALUES ('Rogue', 'Worgen');
+
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Human');
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Dwarf');
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Night Elf');
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Gnome');
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Draenei');
+INSERT INTO ClassToRace (Class, Race) VALUES ('Monk', 'Pandaren');

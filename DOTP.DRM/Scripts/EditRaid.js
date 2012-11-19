@@ -17,7 +17,7 @@ var onSubmitError = function (data) {
 $(document).ready(function () {
     $("#Date").datepicker();
 
-    $("#editForm").submit(function () {
+    $("#Edit").click(function () {
         $("#errorPanel").slideUp(300);
 
         $.ajax({
@@ -37,5 +37,9 @@ $(document).ready(function () {
         });
 
         return false;
+    });
+
+    $("#Cancel").click(function () {
+        document.location = "/";
     });
 });

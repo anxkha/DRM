@@ -16,15 +16,9 @@ namespace DOTP.RaidManager.Threading
             _lock = rwLock;
 
             if (_lock.IsReaderLockHeld)
-            {
-                _wasUpgraded = true;
-                _cookie = _lock.UpgradeToWriterLock(Timeout.Infinite);
-            }
+                UpgradeLock();
             else
-            {
-                _lock.AcquireWriterLock(Timeout.Infinite);
-                _wasUpgraded = false;
-            }
+                CreateNewLock();
         }
 
         public void Dispose()
@@ -33,6 +27,18 @@ namespace DOTP.RaidManager.Threading
                 _lock.DowngradeFromWriterLock(ref _cookie);
             else
                 _lock.ReleaseWriterLock();
+        }
+
+        private void UpgradeLock()
+        {
+            _wasUpgraded = true;
+            _cookie = _lock.UpgradeToWriterLock(Timeout.Infinite);
+        }
+
+        private void CreateNewLock()
+        {
+            _wasUpgraded = false;
+            _lock.AcquireWriterLock(Timeout.Infinite);
         }
     }
 }

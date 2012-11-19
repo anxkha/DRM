@@ -52,10 +52,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -121,6 +117,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\archive-icon.png" />
+    <Content Include="Content\images\calendar-icon.png" />
+    <Content Include="Content\images\cancel-icon.png" />
+    <Content Include="Content\images\delete-icon.png" />
+    <Content Include="Content\images\dotpbanner_big.jpg" />
+    <Content Include="Content\images\down-icon.png" />
+    <Content Include="Content\images\edit-icon.png" />
+    <Content Include="Content\images\f9480749-cf71-4fc1-94b7-ed992f6b9986.png" />
+    <Content Include="Content\images\new-icon.png" />
+    <Content Include="Content\images\revert-icon.png" />
+    <Content Include="Content\images\up-icon.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -156,6 +163,7 @@
     <Content Include="Scripts\EditRaid.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\RosterRaid.js" />
     <Content Include="Scripts\ScheduleRaid.js" />
     <Content Include="Scripts\SignupRaid.js" />
     <Content Include="Scripts\UnArchiveRaidInstance.js" />
@@ -166,6 +174,7 @@
     <Content Include="Views\Characters\Add.aspx" />
     <Content Include="Views\Raid\Archive.aspx" />
     <Content Include="Views\Raid\Edit.aspx" />
+    <Content Include="Views\Raid\Roster.aspx" />
     <Content Include="Views\Raid\Schedule.aspx" />
     <Content Include="Views\Raid\Signup.aspx" />
     <Content Include="Views\Raid\UnArchive.aspx" />

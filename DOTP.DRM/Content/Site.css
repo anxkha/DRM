@@ -1,13 +1,9 @@
-﻿/*----------------------------------------------------------
-The base color for this template is rgb(195,195,195). If you'd like
-to use a different color start by replacing all instances of
-rgb(195,195,195) with your new color.
-----------------------------------------------------------*/
-body {
+﻿body {
     background-color: #5E1322;
-    /*background-color: rgb(195,195,195);*/
-    font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-size: 11pt;
+    font-family: "Segoe UI", Arial, Verdana, Helvetica, Sans-Serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
     margin: 0;
     padding: 0;
     color: #696969;
@@ -30,6 +26,10 @@ p, ul {
     line-height: 1.6em;
 }
 
+img {
+    border: none;
+}
+
 header,
 footer,
 nav,
@@ -39,30 +39,28 @@ section {
 
 /* HEADINGS   
 ----------------------------------------------------------*/
-h1, h2, h3, h4, h5, h6 {
-    font-size: 1.5em;
-}
-
 h1 {
-    font-size: 2em;
+    font-size: 42pt;
+    font-weight: 200;
     padding-bottom: 0;
     margin-bottom: 0;
+    letter-spacing: 0em;
 }
 
 h2 {
-    padding: 0 0 10px 0;
+    font-weight: 200;
+    font-size: 20pt;
+    letter-spacing: 0.01em;
 }
 
 h3 {
-    font-size: 1.2em;
+    font-size: 11pt;
+    font-weight: 600;
 }
 
 h4 {
-    font-size: 1.1em;
-}
-
-h5, h6 {
-    font-size: 1em;
+    font-size: 9pt;
+    font-weight: 400;
 }
 
 /* PRIMARY LAYOUT ELEMENTS   
@@ -71,9 +69,7 @@ h5, h6 {
 /* you can specify a greater or lesser percentage for the 
 page width. Or, you can specify an exact pixel width. */
 .page {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
 }
 
 header, #header {
@@ -204,6 +200,7 @@ table.listTable {
 
 table.listTable thead {
     background-color: White;
+    font-weight: 600;
 }
 
 table td {
@@ -330,4 +327,27 @@ div#title {
 ----------------------------------------------------------*/
 #signupForm #Comment {
     width: 30em;
+}
+
+/* Styles for the raid rostering page
+----------------------------------------------------------*/
+table.rosterTable {
+    border-spacing: 0em 1em;
+    width: 100%;
+}
+
+table.rosterTable .tankRow {
+    background-color: rgba(0, 162, 232, 1);
+}
+
+table.rosterTable .healerRow {
+    background-color: #80FF80;
+}
+
+table.rosterTable .rangedRow {
+    background-color: #FF8080;
+}
+
+table.rosterTable .meleeRow {
+    background-color: #FFFF80;
 }

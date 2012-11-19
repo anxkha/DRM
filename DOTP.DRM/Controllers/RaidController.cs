@@ -2,6 +2,7 @@
 using DOTP.RaidManager;
 using DOTP.Users;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace DOTP.DRM.Controllers
@@ -323,6 +324,120 @@ namespace DOTP.DRM.Controllers
             if (!RaidSignup.Store.TryCancel(Character, RaidInstanceID, out errorMsg))
                 return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
 
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        //
+        // POST: /Raid/RestoreSignup
+
+        [HttpPost]
+        public ActionResult RestoreSignup(int RaidInstanceID, string Character)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            string errorMsg;
+
+            if (!RaidSignup.Store.TryRestore(Character, RaidInstanceID, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        //
+        // POST: /Raid/DeleteSignup
+
+        [HttpPost]
+        public ActionResult DeleteSignup(int RaidInstanceID, string Character)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            string errorMsg;
+
+            if (!RaidSignup.Store.TryDelete(Character, RaidInstanceID, out errorMsg))
+                return new JsonResult() { Data = new RaidResponse(false, errorMsg) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        #endregion
+
+        #region /Raid/Roster
+
+        //
+        // GET: /Raid/Roster?ID=<ID>
+
+        public ActionResult Roster(int ID)
+        {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
+            if (!Manager.GetCurrentUser().IsAdmin)
+                return RedirectToAction("Index", "Home");
+
+            var raidDetails = new RaidDetails(ID);
+
+            if (!raidDetails.Initialize())
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.RaidDetails = raidDetails;
+
+            var tankSignups = new List<RaidSignup>();
+            var healerSignups = new List<RaidSignup>();
+            var rangedSignups = new List<RaidSignup>();
+            var meleeSignups = new List<RaidSignup>();
+
+            foreach(var signup in raidDetails.Signups)
+            {
+                var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
+                var specialization = Specialization.Store.ReadOneOrDefault(s => s.ID == (1 == signup.RosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization));
+
+                if ("Tank" == specialization.Role)
+                    tankSignups.Add(signup);
+                else if ("Healer" == specialization.Role)
+                    healerSignups.Add(signup);
+                else if ("Ranged" == specialization.Role)
+                    rangedSignups.Add(signup);
+                else
+                    meleeSignups.Add(signup);
+            }
+
+            ViewBag.TankSignups = tankSignups;
+            ViewBag.HealerSignups = healerSignups;
+            ViewBag.RangedSignups = rangedSignups;
+            ViewBag.MeleeSignups = meleeSignups;
+
+            if (null == raidDetails.Signups)
+            {
+                ViewBag.NumRostered = 0;
+                ViewBag.NumQueued = 0;
+                ViewBag.NumCancelled = 0;
+                ViewBag.NumTotal = 0;
+                ViewBag.PercentageRostered = 0;
+                ViewBag.PercentageQueued = 0;
+                ViewBag.PercentageCancelled = 0;
+            }
+            else
+            {
+                ViewBag.NumTotal = raidDetails.Signups.Count;
+                ViewBag.NumCancelled = raidDetails.Signups.FindAll(s => s.IsCancelled).Count;
+                ViewBag.NumQueued = raidDetails.Signups.FindAll(s => !s.IsCancelled && !s.IsRostered).Count;
+                ViewBag.NumRostered = raidDetails.Signups.FindAll(s => s.IsRostered).Count;
+                ViewBag.PercentageRostered = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumRostered / ViewBag.NumTotal) * 100);
+                ViewBag.PercentageQueued = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumQueued / ViewBag.NumTotal) * 100);
+                ViewBag.PercentageCancelled = 0 == ViewBag.NumTotal ? 0 : (int)((ViewBag.NumCancelled / ViewBag.NumTotal) * 100);
+            }
+
+            return View();
+        }
+
+        //
+        // POST: /Raid/UpdateRostered
+
+        [HttpPost]
+        public ActionResult UpdateRostered(int RaidInstanceID, string Characters)
+        {
             return new JsonResult() { Data = new RaidResponse(true, "") };
         }
 

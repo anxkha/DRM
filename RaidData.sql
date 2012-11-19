@@ -84,3 +84,21 @@ INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VAL
 INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Dragon Soul, 10-Man Heroic', 'Cataclysm', 10, 85, 8);
 INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Dragon Soul, 25-Man', 'Cataclysm', 25, 85, 8);
 INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Dragon Soul, 25-Man Heroic', 'Cataclysm', 25, 85, 8);
+
+-- Mists of Pandaria
+
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Mogushan Vaults, 10-Man', 'Mists of Pandaria', 10, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Mogushan Vaults, 10-Man Heroic', 'Mists of Pandaria', 10, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Mogushan Vaults, 25-Man', 'Mists of Pandaria', 25, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Mogushan Vaults, 25-Man Heroic', 'Mists of Pandaria', 25, 90, 6);
+
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Heart of Fear, 10-Man', 'Mists of Pandaria', 10, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Heart of Fear, 10-Man Heroic', 'Mists of Pandaria', 10, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Heart of Fear, 25-Man', 'Mists of Pandaria', 25, 90, 6);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Heart of Fear, 25-Man Heroic', 'Mists of Pandaria', 25, 90, 6);
+
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Terrace of Endless Spring, 10-Man', 'Mists of Pandaria', 10, 90, 4);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Terrace of Endless Spring, 10-Man Heroic', 'Mists of Pandaria', 10, 90, 4);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Terrace of Endless Spring, 25-Man', 'Mists of Pandaria', 25, 90, 4);
+INSERT INTO Raid (Name, Expansion, MaxPlayers, MinimumLevel, NumberOfBosses) VALUES ('Terrace of Endless Spring, 25-Man Heroic', 'Mists of Pandaria', 25, 90, 4);
+

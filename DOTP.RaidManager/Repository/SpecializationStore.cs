@@ -4,29 +4,31 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace DOTP.RaidManager.Stores
+namespace DOTP.RaidManager.Repository
 {
-    public class RaidStore
+    public class SpecializationStore
     {
-        private static List<Raid> _cache;
+        private static List<Specialization> _cache;
         private bool _loaded;
         private ReaderWriterLock _lock;
 
-        private static string RAID_SELECT = @"
-SELECT [Name], [Expansion], [MaxPlayers], [MinimumLevel], [NumberOfBosses]
-FROM [DRM].[dbo].[Raid]
+        private static string SPECIALIZATION_SELECT = @"
+SELECT s.[ID], stc.[Class], s.[Name], s.[Role]
+FROM [Specialization] s
+    INNER JOIN [SpecializationToClass] stc ON stc.[Specialization] = s.[ID]
 ";
 
-        public RaidStore()
+        public SpecializationStore()
         {
             _loaded = false;
-            _cache = new List<Raid>();
+            _cache = new List<Specialization>();;
 
             _lock = new ReaderWriterLock();
         }
 
-        public Raid ReadOneOrDefault(Func<Raid, bool> func)
+        public Specialization ReadOneOrDefault(Func<Specialization, bool> func)
         {
             EnsureLoaded();
 
@@ -36,14 +38,14 @@ FROM [DRM].[dbo].[Raid]
                     return spec;
             }
 
-            return default(Raid);
+            return default(Specialization);
         }
 
-        public List<Raid> ReadAll()
+        public List<Specialization> ReadAll()
         {
             EnsureLoaded();
 
-            var newList = new List<Raid>();
+            var newList = new List<Specialization>();
 
             foreach (var entry in _cache)
             {
@@ -53,11 +55,11 @@ FROM [DRM].[dbo].[Raid]
             return newList.Count > 0 ? newList : null;
         }
 
-        public List<Raid> ReadAll(Func<Raid, bool> func)
+        public List<Specialization> ReadAll(Func<Specialization, bool> func)
         {
             EnsureLoaded();
 
-            var newList = new List<Raid>();
+            var newList = new List<Specialization>();
 
             foreach (var entry in _cache)
             {
@@ -78,23 +80,16 @@ FROM [DRM].[dbo].[Raid]
                 {
                     if (_loaded) return;
 
-                    Connection.ExecuteSql(new Query(RAID_SELECT), delegate(SqlDataReader reader)
+                    Connection.ExecuteSql(new Query(SPECIALIZATION_SELECT), delegate(SqlDataReader reader)
                     {
                         while (reader.Read())
                         {
-                            if (null != _cache.Find(s => reader[0].ToString() == s.Name))
+                            var id = int.Parse(reader[0].ToString());
+
+                            if ((null != _cache.Find(s => id == s.ID)) && (id != 35))
                                 return;
 
-                            var newRaid = new Raid()
-                            {
-                                Name = reader[0].ToString(),
-                                Expansion = reader[1].ToString(),
-                                MaxPlayers = (int)reader[2],
-                                MinimumLevel = (int)reader[3],
-                                NumberOfBosses = (int)reader[4]
-                            };
-
-                            _cache.Add(newRaid);
+                            _cache.Add(new Specialization((int)reader[0], reader[1].ToString(), reader[2].ToString(), reader[3].ToString()));
                         }
                     });
 
