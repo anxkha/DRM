@@ -72,6 +72,9 @@ WHERE ([ID] = @ID)
                 {
                     var success = false;
 
+                    if (null == instance.Description)
+                        instance.Description = "";
+
                     object id = Connection.ExecuteSqlScalar(new Query(RAID_INSTANCE_INSERT)
                                                                 .AddParam("Raid", instance.Raid)
                                                                 .AddParam("Name", instance.Name)
@@ -220,6 +223,9 @@ WHERE ([ID] = @ID)
                     }
 
                     var success = false;
+
+                    if (null == instance.Description)
+                        instance.Description = "";
 
                     Connection.ExecuteSql(new Query(RAID_INSTANCE_UPDATE)
                                             .AddParam("ID", instance.ID)

@@ -111,6 +111,7 @@
 <br />
 
 <form action="#" method="post">
+ <input type="hidden" id="RaidInstanceID" name="RaidInstanceID" value="<%: details.RaidInstance.ID %>" />
  <h2>Rostered Signups</h2>
  <table class="rosterTable listTable">
   <thead>
@@ -133,16 +134,9 @@
    numberDrawn += rosterHelper.DrawRangedRows(true);
    numberDrawn += rosterHelper.DrawMeleeRows(true);
   
-   if(numberDrawn > 0)
+   if(0 == numberDrawn)
    {
   %>
-  <tr>
-   <td colspan="7">
-    <input type="button" class="updateButton" id="updateRostered" name="update" value="Update" />
-    <input type="button" class="cancelButton" id="cancelRostered" name="cancel" value="Cancel" />
-   </td>
-  </tr>
-  <% } else { %>
   <tr>
    <td colspan="7">
     None rostered.
@@ -172,16 +166,9 @@
    numberDrawn += rosterHelper.DrawRangedRows();
    numberDrawn += rosterHelper.DrawMeleeRows();
   
-   if(numberDrawn > 0)
+   if(0 == numberDrawn)
    {
   %>
-  <tr>
-   <td colspan="7">
-    <input type="button" id="updateQueued" class="updateButton" name="update" value="Update" />
-    <input type="button" id="cancelQueued" class="cancelButton" name="cancel" value="Cancel" />
-   </td>
-  </tr>
-  <% } else { %>
   <tr>
    <td colspan="7">
     None rostered.

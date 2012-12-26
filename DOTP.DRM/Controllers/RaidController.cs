@@ -433,11 +433,42 @@ namespace DOTP.DRM.Controllers
         }
 
         //
-        // POST: /Raid/UpdateRostered
+        // POST: /Raid/RosterCharacter
 
         [HttpPost]
-        public ActionResult UpdateRostered(int RaidInstanceID, string Characters)
+        public ActionResult RosterCharacter(int RaidInstanceID, string Character)
         {
+            RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
+            if (null == signup)
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
+
+            signup.IsRostered = true;
+
+            string resultMessage;
+
+            if (!RaidSignup.Store.Update(signup, out resultMessage))
+                return new JsonResult() { Data = new RaidResponse(false, resultMessage) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        //
+        // POST: /Raid/UnrosterCharacter
+
+        [HttpPost]
+        public ActionResult UnrosterCharacter(int RaidInstanceID, string Character)
+        {
+            RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
+            if (null == signup)
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
+
+            signup.IsRostered = false;
+
+            string resultMessage;
+
+            if (!RaidSignup.Store.Update(signup, out resultMessage))
+                return new JsonResult() { Data = new RaidResponse(false, resultMessage) };
+
             return new JsonResult() { Data = new RaidResponse(true, "") };
         }
 

@@ -23,9 +23,6 @@
     </p>
 
     <% using (Html.BeginForm()) { %>
-     <div class="errorPanel">
-      
-     </div>
         <div>
             <fieldset>
                 <legend>Account Information</legend>

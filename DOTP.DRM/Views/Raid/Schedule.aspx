@@ -56,8 +56,7 @@
   <%: Html.LabelFor(m => m.Description) %>
  </div>
  <div id="drmRaidInstanceDescription" class="editor-field">
-  <textarea data-val="true" data-val-required="A raid instance description is required" id="Description" name="Description" maxlength="1000"><% if (null != Model) Response.Write(Model.Description); %></textarea>
-  <span class="field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+  <textarea id="Description" name="Description" maxlength="1000"><% if (null != Model) Response.Write(Model.Description); %></textarea>
  </div>
 
  <div class="editor-label">

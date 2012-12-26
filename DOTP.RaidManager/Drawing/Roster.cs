@@ -45,8 +45,9 @@ namespace DOTP.RaidManager.Drawing
                     continue;
 
                 var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
-                var specializationId = 1 == signup.RosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization;
+                int specializationId = 1 == signup.RosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization;
                 var specialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == specializationId);
+                var checkboxClass = showRostered ? "drmRosteredCharacterCheckbox" : "drmQueuedCharacterCheckbox";
 
                 Response.Write(string.Format("<tr class=\"{0}\">", rowClass));
                 Response.Write("<td>" + character.Name + "</td>");
@@ -55,7 +56,7 @@ namespace DOTP.RaidManager.Drawing
                 Response.Write("<td>" + character.Race + "</td>");
                 Response.Write("<td>" + specialization.Name + "</td>");
                 Response.Write("<td>" + signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() + "</td>");
-                Response.Write(string.Format(@"<td><input type=""checkbox"" class=""characterCheckbox"" name=""{0}"" /></td>", character.Name));
+                Response.Write(string.Format(@"<td><input type=""checkbox"" class=""{0}"" name=""{1}"" /></td>", checkboxClass, character.Name));
                 Response.Write("</tr>");
 
                 numberDrawn++;

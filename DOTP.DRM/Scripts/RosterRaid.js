@@ -1,8 +1,6 @@
 ﻿var onUpdateSuccess = function (data) {
     if (data.Success && (true == data.Success)) {
-        $("#successPanel").slideDown(300);
-        $("#successContent").text("You have successfully updated the roster.");
-        $("#main").slideUp(300);
+        document.location.reload();
     }
     else {
         $(window).scrollTop(100);
@@ -18,30 +16,36 @@ var onSubmitError = function (data) {
 };
 
 $(document).ready(function () {
-    $(".updateButton").click(function () {
+    $(".drmQueuedCharacterCheckbox").click(function () {
         $("#errorPanel").slideUp(300);
 
-        var characters = "";
-
-        $(".characterCheckbox").each(function () {
-            var name = $(this).attr("name");
-            var checked = $(this).attr("checked");
-
-            if ("checked" === checked) {
-                if ("" !== characters)
-                    characters = characters + ",";
-
-                characters = characters + name;
-            }
-        });
+        var name = $(this).attr("name");
 
         $.ajax({
             dataType: "json",
             type: "POST",
-            url: "/Raid/UpdateRoster",
+            url: "/Raid/RosterCharacter",
             data: {
                 RaidInstanceID: $("#RaidInstanceID").val(),
-                Characters: characters
+                Character: name
+            },
+            success: onUpdateSuccess,
+            error: onSubmitError
+        });
+    });
+
+    $(".drmRosteredCharacterCheckbox").click(function () {
+        $("#errorPanel").slideUp(300);
+
+        var name = $(this).attr("name");
+
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "/Raid/UnrosterCharacter",
+            data: {
+                RaidInstanceID: $("#RaidInstanceID").val(),
+                Character: name
             },
             success: onUpdateSuccess,
             error: onSubmitError

@@ -16,6 +16,14 @@ SELECT [RaidInstanceID], [Character], [Comment], [IsRostered], [IsCancelled], [R
 FROM [RaidSignup]
 ";
 
+        private static string UPDATE = @"
+UPDATE RaidSignup
+SET Comment = @Comment,
+    IsRostered = @IsRostered,
+    IsCancelled = @IsCancelled,
+    RosteredSpecialization = @RosteredSpecialization
+WHERE (RaidInstanceID = @RaidInstanceID) AND (Character = @Character)";
+
         private static string RAID_SIGNUP_SELECT_BY_INSTANCE = RAID_SIGNUP_SELECT + " WHERE ([RaidInstanceID] = @RaidInstanceID)";
 
         private static string RAID_SIGNUP_SELECT_BY_ONE = RAID_SIGNUP_SELECT_BY_INSTANCE + " AND ([Character] = @Character)";
@@ -115,6 +123,34 @@ WHERE ([Character] = @Character) AND ([RaidInstanceID] = @RaidInstanceID)
             }
 
             return newList.Count > 0 ? newList : null;
+        }
+
+        public bool Update(RaidSignup signup, out string errorMessage)
+        {
+            using (new WriterLock(_lock))
+            {
+                bool success = true;
+
+                Connection.ExecuteSql(new Query(UPDATE)
+                    .AddParam("Character", signup.Character)
+                    .AddParam("Comment", signup.Comment)
+                    .AddParam("IsRostered", signup.IsRostered)
+                    .AddParam("IsCancelled", signup.IsCancelled)
+                    .AddParam("RosteredSpecialization", signup.RosteredSpecialization)
+                    .AddParam("RaidInstanceID", signup.RaidInstanceID),
+                    delegate(SqlDataReader reader)
+                {
+                    if (0 == reader.RecordsAffected)
+                        success = false;
+                });
+
+                if(!success)
+                    errorMessage = "Data repository error when updating the signup. Contact the system administrator.";
+                else
+                    errorMessage="";
+
+                return success;
+            }
         }
 
         public bool TryCreate(RaidSignup signup, out string errorMsg)
