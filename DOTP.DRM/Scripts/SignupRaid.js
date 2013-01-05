@@ -1,4 +1,15 @@
-﻿var onSignupSuccess = function (data) {
+﻿var onUpdateSuccess = function (data) {
+    if (data.Success && (true == data.Success)) {
+        document.location.reload();
+    }
+    else {
+        $(window).scrollTop(100);
+        $("#errorContent").text(data.ErrorMessage);
+        $("#errorPanel").slideDown(300);
+    }
+};
+
+var onSignupSuccess = function (data) {
     if (data.Success && (true == data.Success)) {
         $("#successPanel").slideDown(300);
         $("#main").slideUp(300);
@@ -93,6 +104,26 @@ $(document).ready(function () {
                 Character: character
             },
             success: onCancelSuccess,
+            error: onSubmitError
+        });
+    });
+
+    $(".drmSpecializationDropDown").change(function () {
+        $("#errorPanel").slideUp(300);
+
+        var character = $(this).attr("id").replace("Specialization", "");
+        var specValue = this.options[this.selectedIndex].value;
+
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "/Raid/SwitchSpecialization",
+            data: {
+                RaidInstanceID: $("#RaidInstanceID").val(),
+                Character: character,
+                Spec: specValue
+            },
+            success: onUpdateSuccess,
             error: onSubmitError
         });
     });
