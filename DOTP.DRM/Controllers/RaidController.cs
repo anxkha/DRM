@@ -1,5 +1,6 @@
 ﻿using DOTP.DRM.Models;
 using DOTP.RaidManager;
+using DOTP.RaidManager.Permissions;
 using DOTP.Users;
 using System;
 using System.Collections.Generic;
@@ -319,6 +320,9 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
+            if (!RaidManager.Permissions.Raid.CanModifySignup(Character))
+                return new JsonResult() { Data = new RaidResponse(false, "You do not have permission to modify this signup.") };
+
             string errorMsg;
 
             if (!RaidSignup.Store.TryCancel(Character, RaidInstanceID, out errorMsg))
@@ -336,6 +340,9 @@ namespace DOTP.DRM.Controllers
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
 
+            if (!RaidManager.Permissions.Raid.CanModifySignup(Character))
+                return new JsonResult() { Data = new RaidResponse(false, "You do not have permission to modify this signup.") };
+
             string errorMsg;
 
             if (!RaidSignup.Store.TryRestore(Character, RaidInstanceID, out errorMsg))
@@ -352,6 +359,9 @@ namespace DOTP.DRM.Controllers
         {
             if (!Manager.IsReallyAuthenticated(Request))
                 return RedirectToAction("LogOn", "Account");
+
+            if (!RaidManager.Permissions.Raid.CanModifySignup(Character))
+                return new JsonResult() { Data = new RaidResponse(false, "You do not have permission to modify this signup.") };
 
             string errorMsg;
 
@@ -432,6 +442,9 @@ namespace DOTP.DRM.Controllers
         [HttpPost]
         public ActionResult RosterCharacter(int RaidInstanceID, string Character)
         {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
             RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
             if (null == signup)
                 return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
@@ -449,6 +462,9 @@ namespace DOTP.DRM.Controllers
         [HttpPost]
         public ActionResult UnrosterCharacter(int RaidInstanceID, string Character)
         {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
             RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
             if (null == signup)
                 return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
@@ -466,6 +482,9 @@ namespace DOTP.DRM.Controllers
         [HttpPost]
         public ActionResult SwitchSpecialization(int RaidInstanceID, string Character, int Spec)
         {
+            if (!Manager.IsReallyAuthenticated(Request))
+                return RedirectToAction("LogOn", "Account");
+
             RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
             if (null == signup)
                 return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };

@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <%@ Import Namespace="DOTP.RaidManager" %>
 <%@ Import Namespace="DOTP.RaidManager.Drawing" %>
+<%@ Import Namespace="DOTP.RaidManager.Permissions" %>
 <%@ Import Namespace="DOTP.Users" %>
 
 <asp:Content ID="TitleContent" ContentPlaceHolderID="TitleContent" runat="server">DRM - Raid - Signup</asp:Content>
@@ -153,7 +154,8 @@
 <%
         foreach (var signup in tanks)
         {
-         signupHelper.DrawRow(signup, true, true, false, false);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, hasPermission, hasPermission, false, false);
         }
 %>
      </tbody>
@@ -194,7 +196,8 @@
 <%
         foreach (var signup in healers)
         {
-         signupHelper.DrawRow(signup, true, true, false, false);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, hasPermission, hasPermission, false, false);
         }
 %>
      </tbody>
@@ -235,7 +238,8 @@
 <%
         foreach (var signup in melee)
         {
-         signupHelper.DrawRow(signup, true, true, false, false);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, hasPermission, hasPermission, false, false);
         }
 %>
      </tbody>
@@ -276,7 +280,8 @@
 <%
         foreach (var signup in ranged)
         {
-         signupHelper.DrawRow(signup, true, true, false, false);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, hasPermission, hasPermission, false, false);
         }
 %>
      </tbody>
@@ -315,7 +320,8 @@
 
         foreach (var signup in queued.FindAll(rs => !rs.IsCancelled && !rs.IsRostered))
         {
-         signupHelper.DrawRow(signup, true, true, false, true);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, hasPermission, hasPermission, false, hasPermission);
         }
 %>
      </tbody>
@@ -358,7 +364,8 @@
 
         foreach (var signup in queued.FindAll(rs => rs.IsCancelled))
         {
-         signupHelper.DrawRow(signup, false, true, true, false);
+         bool hasPermission = DOTP.RaidManager.Permissions.Raid.CanModifySignup(signup.Character);
+         signupHelper.DrawRow(signup, false, hasPermission, hasPermission, false);
         }
 %>
      </tbody>
