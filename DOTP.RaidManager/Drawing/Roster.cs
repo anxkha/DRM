@@ -71,13 +71,16 @@ namespace DOTP.RaidManager.Drawing
             string markup;
 
             int firstSpecializationId = 1 == rosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization;
-            int secondSpecializationId = 1 == rosteredSpecialization ? character.SecondarySpecialization : character.PrimarySpecialization;
             var firstSpecialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == firstSpecializationId);
+            int secondSpecializationId = 1 == rosteredSpecialization ? character.SecondarySpecialization : character.PrimarySpecialization;
             var secondSpecialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == secondSpecializationId);
 
             markup = string.Format(@"<select id=""{0}Specialization"" name=""{0}Specialization"" class=""drmSpecializationDropDown"">", character.Name);
             markup += string.Format(@"<option value=""{1}"" selected=""selected"">{0}</option>", firstSpecialization.Name, rosteredSpecialization);
-            markup += string.Format(@"<option value=""{1}"">{0}</option>", secondSpecialization.Name, (1 == rosteredSpecialization ? 2 : 1));
+
+            if (35 != secondSpecializationId)
+                markup += string.Format(@"<option value=""{1}"">{0}</option>", secondSpecialization.Name, (1 == rosteredSpecialization ? 2 : 1));
+
             markup += "</select>";
 
             return markup;

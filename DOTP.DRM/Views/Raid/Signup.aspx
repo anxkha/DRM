@@ -153,7 +153,7 @@
 <%
         foreach (var signup in tanks)
         {
-            signupHelper.DrawRow(signup, true, true);
+         signupHelper.DrawRow(signup, true, true, false, false);
         }
 %>
      </tbody>
@@ -194,7 +194,7 @@
 <%
         foreach (var signup in healers)
         {
-            signupHelper.DrawRow(signup, true, true);
+         signupHelper.DrawRow(signup, true, true, false, false);
         }
 %>
      </tbody>
@@ -235,7 +235,7 @@
 <%
         foreach (var signup in melee)
         {
-         signupHelper.DrawRow(signup, true, true);
+         signupHelper.DrawRow(signup, true, true, false, false);
         }
 %>
      </tbody>
@@ -276,7 +276,7 @@
 <%
         foreach (var signup in ranged)
         {
-            signupHelper.DrawRow(signup, true, true);
+         signupHelper.DrawRow(signup, true, true, false, false);
         }
 %>
      </tbody>
@@ -315,7 +315,7 @@
 
         foreach (var signup in queued.FindAll(rs => !rs.IsCancelled && !rs.IsRostered))
         {
-         signupHelper.DrawRow(signup, true, true);
+         signupHelper.DrawRow(signup, true, true, false, true);
         }
 %>
      </tbody>
@@ -349,14 +349,7 @@
     <table style="width: 100%" class="listTable">
      <thead>
       <tr>
-       <td><b>Name</b></td>
-       <td><b>Comment</b></td>
-       <td><b>Level</b></td>
-       <td><b>Race</b></td>
-       <td><b>Class</b></td>
-       <td><b>Signup Date/Time</b></td>
-       <td><b>Role</b></td>
-       <td></td>
+       <% signupHelper.DrawHeader(); %>
       </tr>
      </thead>
      <tbody>
@@ -365,23 +358,9 @@
 
         foreach (var signup in queued.FindAll(rs => rs.IsCancelled))
         {
-            var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
-            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
+         signupHelper.DrawRow(signup, false, true, true, false);
+        }
 %>
-      <tr>
-       <td><%: character.Name%></td>
-       <td><%: signup.Comment %></td>
-       <td><%: character.Level %></td>
-       <td><%: character.Race %></td>
-       <td><%: character.Class %></td>
-       <td><%: signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString() %></td>
-       <td><%: primarySpec.Role %></td>
-       <td>
-        <a href="#" id="Restore<%: character.Name %>" class="drmRestoreSignupButton" title="Restore this signup" onclick="return false;"><img src="/Content/images/revert-icon.png" alt="" /></a>
-        <a href="#" id="Delete<%: character.Name %>" class="drmDeleteSignupButton" title="Delete this signup" onclick="return false;"><img src="/Content/images/delete-icon.png" alt="" /></a>
-       </td>
-      </tr>
-<% } %>
      </tbody>
     </table>
 <% } %>

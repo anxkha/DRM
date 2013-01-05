@@ -22,11 +22,12 @@ namespace DOTP.RaidManager.Drawing
             Response.Write("</tr>");
         }
 
-        public void DrawRow(RaidSignup signup, bool canCancel, bool canDelete)
+        public void DrawRow(RaidSignup signup, bool canCancel, bool canDelete, bool canRestore, bool canChangeSpec)
         {
             var character = Character.Store.ReadOneOrDefault(c => c.Name == signup.Character);
-            var primarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.PrimarySpecialization);
-            var secondarySpec = Specialization.Store.ReadOneOrDefault(s => s.ID == character.SecondarySpecialization);
+            int specializationId = 1 == signup.RosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization;
+            var specialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == specializationId);
+            string specializationMarkup = canChangeSpec ? DrawSpecializationDropDown(character, signup.RosteredSpecialization) : specialization.Name;
 
             Response.Write("<tr>");
             Response.Write(string.Format("<td>{0}</td>", character.Name));
@@ -35,33 +36,48 @@ namespace DOTP.RaidManager.Drawing
             Response.Write(string.Format("<td>{0}</td>", character.Race));
             Response.Write(string.Format("<td>{0}</td>", character.Class));
             Response.Write(string.Format("<td>{0}</td>", signup.SignupDate.ToShortDateString() + " " + signup.SignupDate.ToShortTimeString()));
-            Response.Write(string.Format("<td>{0}</td>", primarySpec.Role));
-            
-            Response.Write("<td>");
-            if (null != secondarySpec)
-            {
-                Response.Write(string.Format("<select name=\"{0}RosterRole\" class=\"SpecSwitcher\" id=\"{0}RosterRole\">", character.Name));
-                Response.Write(string.Format("<option value=\"{0}\">{1}</option>", primarySpec.ID.ToString(), primarySpec.Name));
-                Response.Write(string.Format("<option value=\"{0}\">{1}</option>", secondarySpec.ID.ToString(), secondarySpec.Name));
-            }
-            Response.Write("</td>");
+            Response.Write(string.Format("<td>{0}</td>", specialization.Role));
+            Response.Write(string.Format("<td>{0}</td>", specializationMarkup));
 
             Response.Write("<td>");
             if (canCancel)
             {
                 Response.Write(string.Format("<a href=\"#\" id=\"Cancel{0}\" class=\"drmCancelSignupButton\" title=\"Cancel this signup\" onclick=\"return false;\">", character.Name));
-                Response.Write("<img src=\"/Content/images/cancel-icon.png\" alt=\"\" />");
-                Response.Write("</a>");
+                Response.Write("<img src=\"/Content/images/cancel-icon.png\" alt=\"\" /></a>");
+            }
+            if (canRestore)
+            {
+                Response.Write(string.Format("<a href=\"#\" id=\"Restore{0}\" class=\"drmRestoreSignupButton\" title=\"Restore this signup\" onclick=\"return false;\">", character.Name));
+                Response.Write("<img src=\"/Content/images/revert-icon.png\" alt=\"\" /></a>");
             }
             if (canDelete)
             {
                 Response.Write(string.Format("<a href=\"#\" id=\"Delete{0}\" class=\"drmDeleteSignupButton\" title=\"Delete this signup\" onclick=\"return false;\">", character.Name));
-                Response.Write("<img src=\"/Content/images/delete-icon.png\" alt=\"\" />");
-                Response.Write("</a>");
+                Response.Write("<img src=\"/Content/images/delete-icon.png\" alt=\"\" /></a>");
             }
             Response.Write("</td>");
 
             Response.Write("</tr>");
+        }
+
+        private string DrawSpecializationDropDown(Character character, int rosteredSpecialization)
+        {
+            string markup;
+
+            int firstSpecializationId = 1 == rosteredSpecialization ? character.PrimarySpecialization : character.SecondarySpecialization;
+            var firstSpecialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == firstSpecializationId);
+            int secondSpecializationId = 1 == rosteredSpecialization ? character.SecondarySpecialization : character.PrimarySpecialization;
+            var secondSpecialization = Specialization.Store.ReadOneOrDefault(spec => spec.ID == secondSpecializationId);
+
+            markup = string.Format(@"<select id=""{0}Specialization"" name=""{0}Specialization"" class=""drmSpecializationDropDown"">", character.Name);
+            markup += string.Format(@"<option value=""{1}"" selected=""selected"">{0}</option>", firstSpecialization.Name, rosteredSpecialization);
+
+            if(35 != secondSpecializationId)
+                markup += string.Format(@"<option value=""{1}"">{0}</option>", secondSpecialization.Name, (1 == rosteredSpecialization ? 2 : 1));
+
+            markup += "</select>";
+
+            return markup;
         }
     }
 }
