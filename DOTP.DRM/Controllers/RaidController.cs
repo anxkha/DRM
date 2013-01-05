@@ -365,9 +365,6 @@ namespace DOTP.DRM.Controllers
 
         #region /Raid/Roster
 
-        //
-        // GET: /Raid/Roster?ID=<ID>
-
         public ActionResult Roster(int ID)
         {
             if (!Manager.IsReallyAuthenticated(Request))
@@ -432,9 +429,6 @@ namespace DOTP.DRM.Controllers
             return View();
         }
 
-        //
-        // POST: /Raid/RosterCharacter
-
         [HttpPost]
         public ActionResult RosterCharacter(int RaidInstanceID, string Character)
         {
@@ -452,9 +446,6 @@ namespace DOTP.DRM.Controllers
             return new JsonResult() { Data = new RaidResponse(true, "") };
         }
 
-        //
-        // POST: /Raid/UnrosterCharacter
-
         [HttpPost]
         public ActionResult UnrosterCharacter(int RaidInstanceID, string Character)
         {
@@ -463,6 +454,23 @@ namespace DOTP.DRM.Controllers
                 return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
 
             signup.IsRostered = false;
+
+            string resultMessage;
+
+            if (!RaidSignup.Store.Update(signup, out resultMessage))
+                return new JsonResult() { Data = new RaidResponse(false, resultMessage) };
+
+            return new JsonResult() { Data = new RaidResponse(true, "") };
+        }
+
+        [HttpPost]
+        public ActionResult SwitchSpecialization(int RaidInstanceID, string Character, int Spec)
+        {
+            RaidSignup signup = RaidSignup.Store.ReadOneOrDefault(RaidInstanceID, Character);
+            if (null == signup)
+                return new JsonResult() { Data = new RaidResponse(false, "Invalid Character for roster action.") };
+
+            signup.RosteredSpecialization = Spec;
 
             string resultMessage;
 

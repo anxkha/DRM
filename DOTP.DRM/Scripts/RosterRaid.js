@@ -51,4 +51,24 @@ $(document).ready(function () {
             error: onSubmitError
         });
     });
+
+    $(".drmSpecializationDropDown").change(function () {
+        $("#errorPanel").slideUp(300);
+
+        var character = $(this).attr("id").replace("Specialization", "");
+        var specValue = this.options[this.selectedIndex].value;
+
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "/Raid/SwitchSpecialization",
+            data: {
+                RaidInstanceID: $("#RaidInstanceID").val(),
+                Character: character,
+                Spec: specValue
+            },
+            success: onUpdateSuccess,
+            error: onSubmitError
+        });
+    });
 });
