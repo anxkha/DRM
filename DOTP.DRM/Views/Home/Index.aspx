@@ -48,11 +48,14 @@ if( null != instances )
    <td><%: raid.Raid %></td>
    <td><%: raid.InviteTime.ToShortDateString() + " " + raid.InviteTime.ToLongTimeString() %></td>
    <td><%: raid.StartTime.ToShortDateString() + " " + raid.StartTime.ToLongTimeString() %></td>
-   <td><a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a></td>
-<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
-   <td><a href="/Raid/Edit?ID=<%: raid.ID %>" title="Edit this raid"><img src="/Content/images/edit-icon.png" alt="Edit" /></a></td>
-   <td><a href="/Raid/Archive?ID=<%: raid.ID %>" title="Archive this raid"><img src="/Content/images/archive-icon.png" alt="Archive" /></a></td>
+   <td>
+    <a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a>
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsRaidTeam){ %>
+    <a href="/Raid/Roster?ID=<%: raid.ID %>" title="Roster this raid"><img src="/Content/images/roster-icon.png" alt="Roster" /></a>
+    <a href="/Raid/Edit?ID=<%: raid.ID %>" title="Edit this raid"><img src="/Content/images/edit-icon.png" alt="Edit" /></a>
+    <a href="/Raid/Archive?ID=<%: raid.ID %>" title="Archive this raid"><img src="/Content/images/archive-icon.png" alt="Archive" /></a>
 <% } %>
+   </td>
   </tr>
 
 <%
