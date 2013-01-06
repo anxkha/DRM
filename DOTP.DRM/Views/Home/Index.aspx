@@ -25,10 +25,6 @@
    <td><b>Invite Time</b></td>
    <td><b>Start Time</b></td>
    <td></td>
-<% if((null != Manager.GetCurrentUser()) && (Manager.GetCurrentUser().IsAdmin || Manager.GetCurrentUser().IsRaidTeam)){ %>
-   <td></td>
-   <td></td>
-<% } %>
   </tr>
  </thead>
  <tbody>
@@ -87,9 +83,6 @@ else
    <td><b>Invite Time</b></td>
    <td><b>Start Time</b></td>
    <td></td>
-<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
-   <td></td>
-<% } %>
   </tr>
  </thead>
  <tbody>
@@ -109,10 +102,12 @@ if( null != instances )
    <td><%: raid.Raid %></td>
    <td><%: raid.InviteTime.ToShortDateString() + " " + raid.InviteTime.ToLongTimeString() %></td>
    <td><%: raid.StartTime.ToShortDateString() + " " + raid.StartTime.ToLongTimeString() %></td>
-   <td><a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a></td>
-<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsAdmin){ %>
-   <td><a href="/Raid/UnArchive?ID=<%: raid.ID %>" title="Un-Archive this raid"><img src="/Content/images/archive-icon.png" alt="Un-Archive" /></a></td>
+   <td>
+    <a href="/Raid/Signup?ID=<%: raid.ID %>" title="View signup details for this raid"><img src="/Content/images/calendar-icon.png" alt="Sign Up" /></a>
+<% if((null != Manager.GetCurrentUser()) && Manager.GetCurrentUser().IsRaidTeam){ %>
+    <a href="/Raid/UnArchive?ID=<%: raid.ID %>" title="Un-Archive this raid"><img src="/Content/images/archive-icon.png" alt="Un-Archive" /></a>
 <% } %>
+   </td>
   </tr>
 
 <%
